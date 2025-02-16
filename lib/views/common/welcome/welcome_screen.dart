@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 180.h),
-                const Text("Fresh grown \n produce, neighbour \n to neighbour",style: TextStyle(fontSize: 25,color: ColorConstants.white,fontWeight: FontWeight.bold),),
+                const Text("Fresh grown \nproduce, neighbour \nto neighbour",style: TextStyle(fontSize: 25,color: ColorConstants.white,fontWeight: FontWeight.w600),),
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

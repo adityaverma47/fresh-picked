@@ -2,9 +2,15 @@ import '../../core/app_export.dart';
 import '../../router/app_routes.dart';
 import '../../widgets/custom_button_bottom.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  bool obscureText = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +91,17 @@ class RegisterScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(color: ColorConstants.primaryColor, width: 2), // Optional: Make it slightly thicker when focused
                     ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: ColorConstants.primaryColor,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          obscureText = !obscureText;
+                        });
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(height: 18.h),
@@ -111,10 +128,20 @@ class RegisterScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(color: ColorConstants.primaryColor, width: 2), // Optional: Make it slightly thicker when focused
                     ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: ColorConstants.primaryColor,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          obscureText = !obscureText;
+                        });
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(height: 25.h),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -133,7 +160,6 @@ class RegisterScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     const Text("Already have an account?", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,color: ColorConstants.lightPrimaryColor),),
                     SizedBox(width: 5.w),
                     GestureDetector(

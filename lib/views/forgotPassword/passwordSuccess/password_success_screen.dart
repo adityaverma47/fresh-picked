@@ -1,10 +1,9 @@
-import 'package:fresh_picked/router/app_routes.dart';
-
 import '../../../core/app_export.dart';
+import '../../../router/app_routes.dart';
 import '../../../widgets/custom_button_bottom.dart';
 
-class ForgotEmailPageScreen extends StatelessWidget {
-  const ForgotEmailPageScreen({super.key});
+class PasswordSuccessScreen extends StatelessWidget {
+  const PasswordSuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class ForgotEmailPageScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 30.h),
                 Text(
-                  "Forgot Password?",
+                  "Reset Password?",
                   style: TextStyle(
                       fontSize: 22.sp,
                       color: ColorConstants.primaryColor,
@@ -34,7 +33,7 @@ class ForgotEmailPageScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  "Enter your email address and we'll send you confirmation code to reset your password",
+                  "Your new password ",
                   style: TextStyle(
                       overflow: TextOverflow.clip,
                       fontSize: 16.sp,

@@ -1,18 +1,18 @@
-import 'package:fresh_picked/core/app_export.dart';
-import 'package:fresh_picked/router/app_routes.dart';
-import 'package:fresh_picked/widgets/custom_button_bottom.dart';
+import '../../../core/app_export.dart';
+import '../../../router/app_routes.dart';
+import '../../../widgets/custom_button_bottom.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class NewPasswordScreen extends StatefulWidget {
+  const NewPasswordScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<NewPasswordScreen> createState() => _NewPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  bool obscureText = true;
+class _NewPasswordScreenState extends State<NewPasswordScreen> {
   @override
   Widget build(BuildContext context) {
+    bool obscureText = true;
     return Scaffold(
       backgroundColor: ColorConstants.white,
       body: SafeArea(
@@ -29,61 +29,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     Image.asset(ImageConstants.freshPickedText),
                   ],
                 ),
-                SizedBox(height: 5.h),
-                const Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Login to your account",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: ColorConstants.primaryColor,
-                    ),
-                  ),
-                ),
                 SizedBox(height: 30.h),
                 Text(
-                  "Email",
+                  "Reset Password?",
                   style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 22.sp,
                       color: ColorConstants.primaryColor,
-                      fontWeight: FontWeight.w400),
+                      fontWeight: FontWeight.w700),
                 ),
                 SizedBox(height: 8.h),
-                TextField(
-                  style: const TextStyle(color: ColorConstants.primaryColor),
-                  decoration: InputDecoration(
-                    hintText: "Enter your email",
-                    hintStyle: const TextStyle(
-                        color: ColorConstants.primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide:
-                          const BorderSide(color: ColorConstants.primaryColor),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide:
-                          const BorderSide(color: ColorConstants.primaryColor),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                          color: ColorConstants.primaryColor,
-                          width:
-                              2), // Optional: Make it slightly thicker when focused
-                    ),
-                  ),
-                ),
-                SizedBox(height: 18.h),
                 Text(
-                  "Password",
+                  "Your new password must be different from the previous used password",
+                  style: TextStyle(
+                    overflow: TextOverflow.clip,
+                      fontSize: 14.sp,
+                      color: ColorConstants.lightPrimaryColor,
+                      fontWeight: FontWeight.w300),
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  "Create Password",
                   style: TextStyle(
                       fontSize: 16.sp,
                       color: ColorConstants.primaryColor,
-                      fontWeight: FontWeight.w400),
+                      fontWeight: FontWeight.w700),
                 ),
                 SizedBox(height: 8.h),
                 TextFormField(
@@ -107,9 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
-                          color: ColorConstants.primaryColor,
-                          width:
-                              2),
+                          color: ColorConstants.primaryColor, width: 2),
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -124,20 +91,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.h),
-                InkWell(
-                  onTap: (){
-                    // Navigator.pushNamed(context, AppRoutes.forgotEmailScreen);
-                  },
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Forgot Password",
-                      style: TextStyle(
-                        fontSize: 16.sp,
+                SizedBox(height: 18.h),
+                Text(
+                  "Confirm Password",
+                  style: TextStyle(
+                      fontSize: 16.sp,
+                      color: ColorConstants.primaryColor,
+                      fontWeight: FontWeight.w700),
+                ),
+                SizedBox(height: 8.h),
+                TextFormField(
+                  obscureText: obscureText,
+                  style: const TextStyle(color: ColorConstants.primaryColor),
+                  decoration: InputDecoration(
+                    hintText: "Enter your password",
+                    hintStyle: const TextStyle(
                         color: ColorConstants.primaryColor,
-                        decoration: TextDecoration.underline,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: ColorConstants.white),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide:
+                          const BorderSide(color: ColorConstants.primaryColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                          color: ColorConstants.primaryColor, width: 2),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: ColorConstants.primaryColor,
                       ),
+                      onPressed: () {
+                        setState(() {
+                          obscureText = !obscureText;
+                        });
+                      },
                     ),
                   ),
                 ),
@@ -146,42 +141,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomButtonBottom(
-                      onTap: (){
-                        Navigator.pushNamed(context, AppRoutes.registerScreen);
+                      onTap: () {
+                        // Navigator.pushNamed(context, AppRoutes.passwordSuccessScreen);
                       },
                       width: 140.w,
                       height: 45.h,
-                      text: "LOGIN",
+                      text: "CONTINUE",
                       shape: ButtonShape.RoundedBorder6,
                     ),
                   ],
                 ),
-                SizedBox(height: 15.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Don't have an account?",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: ColorConstants.lightPrimaryColor),
-                    ),
-                    SizedBox(width: 5.w),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.pushNamed(context, AppRoutes.registerScreen);
-                      },
-                      child: const Text(
-                        "Create now",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: ColorConstants.primaryColor),
-                      ),
-                    )
-                  ],
-                )
               ],
             ),
           ),
