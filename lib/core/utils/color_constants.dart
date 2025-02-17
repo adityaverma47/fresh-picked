@@ -12,5 +12,6 @@ class ColorConstants{
   static const error = Color(0xFFE42222);
   static const orangeOne = Color(0xFFD8712A);
   static const bgGrey = Color(0xFF40444F);
-
+  static Color errorBorder = const Color(0xFF990000);
+  static const outlineStroke = Color(0xFFE2E2E2);
 }
