@@ -48,17 +48,30 @@ class Data {
 
 class User {
   String? sId;
+  String? fullName;
   String? email;
+  String? phone;
   String? avatar;
   String? createdAt;
   String? updatedAt;
   int? iV;
 
-  User({this.sId, this.email, this.avatar, this.createdAt, this.updatedAt, this.iV});
+  User({
+    this.sId,
+    this.fullName,
+    this.email,
+    this.phone,
+    this.avatar,
+    this.createdAt,
+    this.updatedAt,
+    this.iV,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    fullName = json['fullName'];
     email = json['email'];
+    phone = json['phone'];
     avatar = json['avatar'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -68,7 +81,9 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
+    data['fullName'] = fullName;
     data['email'] = email;
+    data['phone'] = phone;
     data['avatar'] = avatar;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;

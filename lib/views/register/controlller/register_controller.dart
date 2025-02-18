@@ -22,12 +22,12 @@ class RegisterController extends GetxController {
   Rx<TextEditingController> confirmPasswordController =
       TextEditingController().obs;
 
-  Future<void> sendOTP() async {
+  Future<void> registerUser() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
     final name = nameController.value.text.trim();
-    final number = numberController.value.text.trim();
+    final phone = numberController.value.text.trim();
     final email = emailController.value.text.trim().toLowerCase();
     final password = passwordController.value.text.trim();
     final confirmPassword = confirmPasswordController.value.text.trim();
@@ -40,27 +40,21 @@ class RegisterController extends GetxController {
       return;
     }
     try {
-      Map<String, String> initialRequest = {
-        // Constants.credentialKey: email,
+      Map<String, String> request = {
+        Constants.email: email,
+        Constants.fullName :name,
+        Constants.phone : phone,
+        Constants.password : password
       };
 
-      // var response = await apiService.registerOtp(initialRequest);
-      // storage.write(Constants.registerInitialRequest, initialRequest);
-      // if (response.status == true) {
-      //   String? receivedOtp = response.otp?.toString() ?? "";
-      //   storage.write(Constants.registerOtp, receivedOtp);
-      //   storage.write(Constants.registerUserEmail, email);
-      //   storage.write(Constants.registrationData, {
-      //     Constants.name: name,
-      //     Constants.number: number,
-      //     Constants.email: email,
-      //     Constants.password: password
-      //   });
-      //   Get.toNamed(AppRoutes.otpScreen);
-      //   CustomSnackBar(response.message.toString(), "S");
-      // } else {
-      //   CustomSnackBar(response.message ?? "Registration failed", "E");
-      // }
+      var response = await apiService.register(request);
+      if (response.success == true) {
+        storage.write(Constants.status, response.success);
+        Get.toNamed(AppRoutes.dashBoardScreen);
+        CustomSnackBar(response.message.toString(), "S");
+      } else {
+        CustomSnackBar(response.message ?? "Registration failed", "E");
+      }
     } catch (e) {
       Message_Utils.displayToast("Error: ${e.toString()}");
     } finally {

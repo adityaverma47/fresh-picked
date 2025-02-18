@@ -27,11 +27,11 @@ class ForgotEmailController extends GetxController {
 
     try {
       Map<String, String> initialRequest = {
-        Constants.credentialKey: email,
+        Constants.email: email,
       };
 
       var response = await apiService.forgotPassword(initialRequest);
-      // storage.write(Constants.forgotInitialRequest, initialRequest);
+      storage.write(Constants.forgotInitialRequest, initialRequest);
 
       if(response.success == true) {
         // print("ForgotPasswordResponseToken: ${response.verifyToken}");
@@ -40,7 +40,7 @@ class ForgotEmailController extends GetxController {
         // storage.write(Constants.forgotPasswordReceivedOtp, receivedOtp);
         // storage.write(Constants.forgotPasswordEmailOrNumber, email);
         // storage.write(Constants.verifiedToken, verifiedToken);
-        Get.toNamed(AppRoutes.verifyOtpScreen);
+        Get.toNamed(AppRoutes.forgotVerifyOtpScreen);
         CustomSnackBar(response.message.toString(), "S");
       } else{
         CustomSnackBar(response.message ?? "ForgotPassword failed", "E");

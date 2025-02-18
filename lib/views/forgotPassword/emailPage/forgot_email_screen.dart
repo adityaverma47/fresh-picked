@@ -79,7 +79,7 @@ class ForgotEmailPageScreen extends GetView<ForgotEmailController> {
                   children: [
                     CustomButtonBottom(
                       onTap: (){
-                        Navigator.pushNamed(context, AppRoutes.verifyOtpScreen);
+                        Navigator.pushNamed(context, AppRoutes.forgotVerifyOtpScreen);
                       },
                       width: 140.w,
                       height: 45.h,

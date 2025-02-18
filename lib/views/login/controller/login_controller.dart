@@ -47,15 +47,12 @@ class LoginController extends GetxController {
       };
 
       LoginModel response = await apiService.login(request);
-      print("Login Response1: $response");
 
       if (response.success == true) {
         storage.write(Constants.email, email);
         storage.write(Constants.password, password);
         await saveUserSession(response);
-        print("Login Response2: ${response.success}");
-        print("Login Response3: ${response.message}");
-        Get.offAllNamed(AppRoutes.bottomBar);
+        Get.offAllNamed(AppRoutes.dashBoardScreen);
         CustomSnackBar(response.message.toString(), "S");
       } else {
         CustomSnackBar(response.message ?? "Login failed", "E");
@@ -72,15 +69,12 @@ class LoginController extends GetxController {
   }
 
   Future<void> saveUserSession(LoginModel response) async {
-    // storage.write(Constants.id, response.user?.id);
-    // storage.write(Constants.name, response.user?.fullName);
-    // storage.write(Constants.status, response.status);
-    // storage.write(Constants.number, response.user?.number);
-    // // storage.write(Constants.authKey, response.accessToken.toString());
-    // await secureStorage.write(key: Constants.accessToken, value: response.accessToken.toString());
-    // await secureStorage.write(key: Constants.refreshToken, value: response.refreshToken.toString());
-    // print("AccessToken: ${response.accessToken.toString()}");
-    // print("RefreshToken: ${response.refreshToken.toString()}");
+    storage.write(Constants.fullName, response.data!.user!.fullName);
+    storage.write(Constants.status, response.success);
+    storage.write(Constants.phone, response.data!.user!.phone);
+    // storage.write(Constants.authToken, response.accessToken.toString());
+    await secureStorage.write(key: Constants.accessToken, value: response.data!.accessToken.toString());
+    await secureStorage.write(key: Constants.refreshToken, value: response.data!.refreshToken.toString());
   }
 
   @override

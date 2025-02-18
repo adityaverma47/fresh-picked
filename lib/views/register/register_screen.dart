@@ -5,8 +5,8 @@ import '../../widgets/custom_button_bottom.dart';
 import '../../widgets/custom_text_form_field.dart';
 import 'controlller/register_controller.dart';
 
-class RegistrationScreen extends GetView<RegisterController> {
-  const RegistrationScreen({super.key});
+class RegisterScreen extends GetView<RegisterController> {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +201,7 @@ class RegistrationScreen extends GetView<RegisterController> {
                               () =>  CustomButtonBottom(
                             onTap: controller.isLoading.value
                                 ? null
-                                : () => controller.sendOTP(),
+                                : () => controller.registerUser(),
                             margin: EdgeInsets.symmetric(
                                 horizontal: 5.h, vertical: 15.h),
                             text: "Sign In",
