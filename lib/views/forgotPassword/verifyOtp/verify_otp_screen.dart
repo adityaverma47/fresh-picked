@@ -1,9 +1,12 @@
+import 'package:fresh_picked/views/forgotPassword/verifyOtp/controller/verify_otp_controller.dart';
+import 'package:get/get.dart';
+
 import '../../../core/app_export.dart';
 import 'package:pinput/pinput.dart';
 import '../../../router/app_routes.dart';
 import '../../../widgets/custom_button_bottom.dart';
 
-class ForgotVerifyOtpScreen extends StatelessWidget {
+class ForgotVerifyOtpScreen extends GetView<VerifyOtpController> {
   const ForgotVerifyOtpScreen({super.key});
 
   @override
@@ -120,17 +123,17 @@ class ForgotVerifyOtpScreen extends StatelessWidget {
     );
 
     return Pinput(
-      // controller: controller.otpController.value,
+      controller: controller.otpController.value,
       defaultPinTheme: defaultPinTheme,
       focusedPinTheme: focusedPinTheme,
       submittedPinTheme: submittedPinTheme,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      // validator: controller.validateOtp,
+      validator: controller.validateOtp,
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,
       closeKeyboardWhenCompleted: true,
       keyboardType: TextInputType.number,
-      // onCompleted: (otp) => controller.forgotPasswordVerifyOtp(),
+      onCompleted: (otp) => controller.forgotPasswordVerifyOtp(),
     );
   }
 

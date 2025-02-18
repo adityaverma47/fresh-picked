@@ -4,5 +4,6 @@ class Constants{
   static const authToken = 'auth_token';
   static const email = 'email';
   static const password = 'password';
+  static const String credentialKey = "credential";
 
 }

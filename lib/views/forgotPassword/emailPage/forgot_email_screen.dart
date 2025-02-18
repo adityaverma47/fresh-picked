@@ -1,9 +1,11 @@
 import 'package:fresh_picked/router/app_routes.dart';
-
+import 'package:get/get.dart';
 import '../../../core/app_export.dart';
 import '../../../widgets/custom_button_bottom.dart';
+import '../../../widgets/custom_text_form_field.dart';
+import 'controller/forgot_email_controller.dart';
 
-class ForgotEmailPageScreen extends StatelessWidget {
+class ForgotEmailPageScreen extends GetView<ForgotEmailController> {
   const ForgotEmailPageScreen({super.key});
 
   @override
@@ -51,32 +53,25 @@ class ForgotEmailPageScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700),
                 ),
                 SizedBox(height: 8.h),
-                TextFormField(
-                  style: const TextStyle(color: ColorConstants.primaryColor),
-                  decoration: InputDecoration(
-                    hintText: "Enter your email",
-                    hintStyle: const TextStyle(
-                        color: ColorConstants.primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide:
-                      const BorderSide(color: ColorConstants.primaryColor),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide:
-                      const BorderSide(color: ColorConstants.primaryColor),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                          color: ColorConstants.primaryColor,
-                          width:
-                          2), // Optional: Make it slightly thicker when focused
-                    ),
-                  ),
+                CustomTextFormField(
+                  controller: controller.numberController.value,
+                  onChanged: (val) {},
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.text,
+                  labelText: "Email / Phone number",
+                  hintText: "Enter your email/phone number",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "This field cannot be empty";
+                    }
+                    if (!GetUtils.isEmail(value)) {
+                      if (!GetUtils.isPhoneNumber(value)) {
+                        return "Enter a valid email or phone number";
+                      }
+                    }
+                    return null;
+                  },
+                  floatingLabelBehavior: FloatingLabelBehavior.never,
                 ),
                 SizedBox(height: 25.h),
                 Row(
