@@ -138,11 +138,11 @@ class CustomTextFormField extends StatelessWidget {
       border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
-            color: ColorConstants.grey,
+            color: ColorConstants.primaryColor,
           )),
       enabledBorder: OutlineInputBorder(
         borderSide: const BorderSide(
-            color: ColorConstants.grey, width: 1),
+            color: ColorConstants.primaryColor, width: 1),
         borderRadius: BorderRadius.circular(12),
       ),
       errorStyle: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../../core/app_export.dart';
+import '../../router/app_routes.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_button_bottom.dart';
 import '../../widgets/custom_text_form_field.dart';
@@ -38,10 +39,7 @@ class RegisterScreen extends GetView<RegisterController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: Image.asset(
-                      ImageConstants.logoFreshPicked,
-                      width: 120.w,
-                    ),
+                    child: Text("FreshPicked", style: TextStyle(fontSize: 28,fontWeight: FontWeight.w600,color: ColorConstants.primaryColor,fontStyle: FontStyle.values.first),),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20.h,vertical: 20),
@@ -77,15 +75,11 @@ class RegisterScreen extends GetView<RegisterController> {
                             if (value == null || value.isEmpty) {
                               return "Phone Number is required";
                             }
-                            final regex = RegExp(r'^[6-9]\d{9}$');
+                            final regex = RegExp(r'^(?:\+1\s?)?[2-9][1-9][0-9]\d{7}$');
                             if (!regex.hasMatch(value)) {
                               return "Enter a valid phone number";
                             }
                             return null;
-                            // if(!GetUtils.isPhoneNumber(value)) {
-                            //   return "Enter a valid number";
-                            // }
-                            // return null;
                           },
                           maxLength: 10,
                           textInputAction: TextInputAction.next,
@@ -199,53 +193,42 @@ class RegisterScreen extends GetView<RegisterController> {
                         SizedBox(height: 8.h),
                         Obx(
                               () =>  CustomButtonBottom(
+
                             onTap: controller.isLoading.value
                                 ? null
                                 : () => controller.registerUser(),
                             margin: EdgeInsets.symmetric(
-                                horizontal: 5.h, vertical: 15.h),
+                                horizontal: 85.h, vertical: 15.h),
                             text: "Sign In",
                             height: 45.h,
                             loading: controller.isLoading.value,
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 30.w),
-                          child: Divider(
-                            height: 1.h,
-                            thickness: 2.w,
-                            color: ColorConstants.outlineStroke,
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                        vertical: 10.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Already have an account?",
-                          style: TextStyle(fontSize: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Already have an account?",
+                        style: TextStyle(fontSize: 15,color: ColorConstants.lightPrimaryColor),
+                      ),
+                      SizedBox(width: 8.w),
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                          Get.toNamed(AppRoutes.loginScreen);
+                        },
+                        child: const Text(
+                          "Login Now",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: ColorConstants.primaryColor),
                         ),
-                        SizedBox(width: 8.w),
-                        InkWell(
-                          onTap: () {
-                            Get.back();
-                            // Get.toNamed(AppRoutes.loginScreen);
-                          },
-                          child: const Text(
-                            "Login ",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: ColorConstants.primaryColor),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

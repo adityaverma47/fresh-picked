@@ -12,7 +12,7 @@ class ForgotEmailController extends GetxController {
 
   RxBool isLoading = false.obs;
   final storage = GetStorage();
-  Rx<TextEditingController> numberController = TextEditingController().obs;
+  Rx<TextEditingController> emailController = TextEditingController().obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final ApiService apiService = ApiService(dio: DioClient().getDio());
 
@@ -23,7 +23,7 @@ class ForgotEmailController extends GetxController {
     }
     isLoading.value = true;
 
-    final email = numberController.value.text.trim();
+    final email = emailController.value.text.trim();
 
     try {
       Map<String, String> initialRequest = {
@@ -55,7 +55,7 @@ class ForgotEmailController extends GetxController {
   }
 
   void resetForm(){
-    numberController.value.clear();
+    emailController.value.clear();
   }
 
 }

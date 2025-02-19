@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fresh_picked/router/app_routes.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../../core/app_export.dart';
@@ -25,6 +26,10 @@ class VerifyOtpController extends GetxController {
     // final receivedOtp = storage.read(Constants.forgotPasswordReceivedOtp);
     startTimer();
     // print("Received otp: $receivedOtp");
+  }
+
+  void navigateToPasswordScreen() {
+    Get.toNamed(AppRoutes.newPasswordScreen);
   }
 
   Future<void> forgotPasswordVerifyOtp() async {

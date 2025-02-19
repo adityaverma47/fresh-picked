@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
                   selectionHandleColor: ColorConstants.primaryColor,
                   selectionColor: ColorConstants.primaryColor)),
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.bottomBar,
+          initialRoute: AppRoutes.initialRoute,
           getPages: AppRoutes.pages,
-          title: "Cng-Care",
+          title: "Fresh-Picked",
         ),
       ),
     );

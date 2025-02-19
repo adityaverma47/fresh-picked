@@ -54,20 +54,23 @@ class ForgotEmailPageScreen extends GetView<ForgotEmailController> {
                 ),
                 SizedBox(height: 8.h),
                 CustomTextFormField(
-                  controller: controller.numberController.value,
+                  controller: controller.emailController.value,
                   onChanged: (val) {},
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.text,
-                  labelText: "Email / Phone number",
-                  hintText: "Enter your email/phone number",
+                  labelText: "Email",
+                  hintText: "Enter your email",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "This field cannot be empty";
+                      return "Email is required";
                     }
-                    if (!GetUtils.isEmail(value)) {
-                      if (!GetUtils.isPhoneNumber(value)) {
-                        return "Enter a valid email or phone number";
-                      }
+                    final lowercaseValue = value.toLowerCase();
+                    if (!GetUtils.isEmail(lowercaseValue)) {
+                      return "Enter a valid email address";
+                    }
+                    final regex = RegExp(r'^[a-zA-Z0-9._%+-]+@gmail\.com$');
+                    if (!regex.hasMatch(lowercaseValue)) {
+                      return "Email must be a valid Gmail address";
                     }
                     return null;
                   },
