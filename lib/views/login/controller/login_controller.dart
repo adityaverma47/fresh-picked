@@ -25,7 +25,6 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     // emailController.value.text = storage.read(Constants.email) ?? '';
   }
 
