@@ -1,7 +1,11 @@
+import 'package:fresh_picked/bottom_bar/binding/bottom_binding.dart';
+import 'package:fresh_picked/bottom_bar/bottom_screen.dart';
 import 'package:fresh_picked/views/common/welcome/binding/welcome_binding.dart';
 import 'package:fresh_picked/views/common/welcome/welcome_screen.dart';
 import 'package:fresh_picked/views/dashboard/binding/dashboard_binding.dart';
 import 'package:fresh_picked/views/dashboard/dashboard_screen.dart';
+import 'package:fresh_picked/views/profile/binding/profile_binding.dart';
+import 'package:fresh_picked/views/profile/profile_screen.dart';
 import 'package:get/get.dart';
 import '../views/common/splash/binding/splash_binding.dart';
 import '../views/common/splash/splash_screen.dart';
@@ -26,6 +30,7 @@ class AppRoutes {
   static const String newPasswordScreen = '/new_password_screen';
   static const String dashBoardScreen = '/dashboard_screen';
   static const String bottomBar = '/bottom_navigation_bar_screen';
+  static const String profileScreen = '/profile_screen';
 
 
   static List<GetPage> pages = [
@@ -61,6 +66,14 @@ class AppRoutes {
         name: dashBoardScreen,
         page: () => const DashboardScreen(), // Registration Screen
         bindings: [DashboardBinding()]),
+    GetPage(
+        name: bottomBar,
+        page: () => const BottomScreen(), // Registration Screen
+        bindings: [BottomBinding()]),
+    GetPage(
+        name: profileScreen,
+        page: () => const ProfileScreen(), // Registration Screen
+        bindings: [ProfileBinding()]),
 
   ];
 }

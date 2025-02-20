@@ -1,9 +1,4 @@
-import 'package:get/get.dart';
 import '../../core/app_export.dart';
-import '../../router/app_routes.dart';
-import '../../widgets/app_bar/custom_app_bar.dart';
-import '../../widgets/custom_button_bottom.dart';
-import '../../widgets/custom_text_form_field.dart';
 import 'controlller/register_controller.dart';
 
 class RegisterScreen extends GetView<RegisterController> {
