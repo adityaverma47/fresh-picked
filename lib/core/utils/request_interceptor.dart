@@ -1,15 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:fresh_picked/core/utils/shared_pref.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'constants.dart';
 
+
 class RequestInterceptor extends Interceptor{
+
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    final token = await SharedPref.getString(Constants.authToken);
-    if(token.isNotEmpty){
-      options.headers["Authorization"] = "Bearer $token";
+    String? accessToken = await secureStorage.read(key: Constants.accessToken);
+    if (accessToken != null) {
+      options.headers['Authorization'] = 'Bearer $accessToken';
     }
     super.onRequest(options, handler);
   }

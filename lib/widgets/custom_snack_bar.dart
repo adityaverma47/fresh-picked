@@ -1,15 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../core/utils/color_constants.dart';
+import '../core/app_export.dart';
 
 void CustomSnackBar(String msg, String type) {
   Get.rawSnackbar(
-    messageText: Text(msg,style: const TextStyle(), ),
+    messageText: Text(msg,style: const TextStyle(color: ColorConstants.white),),
     icon: type == "S"
         ? const Icon(
       Icons.check_circle_rounded,
-      color: ColorConstants.success,
+      color: ColorConstants.white,
     )
         : type == "E"
         ? const Icon(
@@ -20,15 +18,12 @@ void CustomSnackBar(String msg, String type) {
       Icons.warning_amber_rounded,
       color: ColorConstants.orangeOne,
     ),
-    backgroundColor: ColorConstants.bgGrey,
+    backgroundColor: ColorConstants.primaryColor,
     duration: const Duration(milliseconds: 2000),
     margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
     padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-    snackPosition: SnackPosition.TOP,
+    snackPosition: SnackPosition.BOTTOM,
     borderRadius: 5,
     animationDuration: const Duration(milliseconds: 1000),
-    backgroundGradient: const LinearGradient(
-      colors: [ColorConstants.bgGrey, ColorConstants.bgGrey],
-    ),
   );
 }

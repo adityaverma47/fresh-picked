@@ -118,7 +118,8 @@ class ForgotVerifyOtpScreen extends GetView<VerifyOtpController> {
                             children: [
                               CustomButtonBottom(
                                 onTap: () {
-                                  controller.navigateToPasswordScreen();
+                                  controller.forgotPasswordVerifyOtp();
+                                  controller.resetForm();
                                 },
                                 width: 140.w,
                                 height: 45.h,

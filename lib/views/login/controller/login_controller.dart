@@ -1,14 +1,5 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-
 import '../../../core/app_export.dart';
-import '../../../core/services/api_services.dart';
-import '../../../core/services/dio_client.dart';
-import '../../../core/utils/flutter_toast.dart';
 import '../../../data/models/LoginModel/login_model.dart';
-import '../../../router/app_routes.dart';
-import '../../../widgets/custom_snack_bar.dart';
 
 class LoginController extends GetxController {
 
@@ -46,8 +37,7 @@ class LoginController extends GetxController {
         'password': password,
       };
 
-      LoginModel response = await apiService.login(request);
-
+      var response = await apiService.login(request);
       if (response.success == true) {
         storage.write(Constants.email, email);
         storage.write(Constants.password, password);
@@ -69,6 +59,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> saveUserSession(LoginModel response) async {
+    storage.write(Constants.id, response.data!.user!.sId);
     storage.write(Constants.fullName, response.data!.user!.fullName);
     storage.write(Constants.status, response.success);
     storage.write(Constants.phone, response.data!.user!.phone);

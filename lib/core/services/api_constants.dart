@@ -1,6 +1,6 @@
 class ApiConstants {
 
-  static const baseUrl = "http://localhost:5000/api/v1/";
+  static const baseUrl = "https://lbhkfnz4-5000.inc1.devtunnels.ms/api/v1/";
 
   static const userLogin = "user/login";
   static const userRegister = 'user/createUser';

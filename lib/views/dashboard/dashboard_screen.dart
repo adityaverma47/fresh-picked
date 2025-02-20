@@ -11,7 +11,7 @@ class DashboardScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Home Screen",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)
+          Center(child: Text(" Welcome Home Screen",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))
         ],
       ),
     );

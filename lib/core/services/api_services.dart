@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fresh_picked/core/utils/flutter_toast.dart';
 import '../../data/models/CommonModel/common_model.dart';
 import '../../data/models/LoginModel/login_model.dart';
 import '../../data/models/RegisterModel/register_model.dart';
+import '../utils/constants.dart';
 import 'api_constants.dart';
 import 'api_repository.dart';
 
@@ -11,11 +13,13 @@ class ApiService implements ApiRepository {
 
   ApiService({required this.dio});
 
+  final secureStorage = const FlutterSecureStorage();
+
   @override
   Future<LoginModel> login(Map<String, String> request) async {
     try {
       final response = await dio.post(ApiConstants.userLogin, data: request);
-
+      print("LoginResponse:${response.statusCode}");
       if (response.statusCode == 200) {
         return LoginModel.fromJson(response.data);
       } else {
@@ -44,6 +48,7 @@ class ApiService implements ApiRepository {
   Future<RegisterModel> register(Map<String, String> request) async {
     try {
       final response = await dio.post(ApiConstants.userRegister, data: request);
+      print("LoginResponse1:${response.data}");
       if (response.statusCode == 201) {
         return RegisterModel.fromJson(response.data);
       } else {
@@ -69,6 +74,10 @@ class ApiService implements ApiRepository {
   @override
   Future<CommonModel> forgotPassword(Map<String, String> request) async {
     try {
+      String? token = await secureStorage.read(key: Constants.accessToken);
+      if (token == null || token.isEmpty) {
+        throw Exception('Token is missing in the request map.');
+      }
       Response response =
       await dio.post(ApiConstants.forgotPasswordMethod, data: request);
       if (response.statusCode == 200) {

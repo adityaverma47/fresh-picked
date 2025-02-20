@@ -1,8 +1,5 @@
 import 'dart:async';
-
 import 'package:fresh_picked/router/app_routes.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import '../../../../core/app_export.dart';
 import '../../../../core/services/api_services.dart';
 import '../../../../core/services/dio_client.dart';
@@ -23,9 +20,11 @@ class VerifyOtpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // final receivedOtp = storage.read(Constants.forgotPasswordReceivedOtp);
+    final receivedOtp = storage.read(Constants.forgotPasswordReceivedOtp);
     startTimer();
-    // print("Received otp: $receivedOtp");
+    if (kDebugMode) {
+      print("Received otp: $receivedOtp");
+    }
   }
 
   void navigateToPasswordScreen() {
@@ -38,20 +37,23 @@ class VerifyOtpController extends GetxController {
     }
     isLoading.value = true;
     try {
-      // final receivedOtp = storage.read(Constants.forgotPasswordReceivedOtp);
+      final receivedOtp = storage.read(Constants.forgotPasswordReceivedOtp);
       final enteredOtp = otpController.value.text.toString();
 
       if(enteredOtp.isEmpty) {
         CustomSnackBar("Please enter OTP", "E");
         return;
       }
-      // if(enteredOtp == receivedOtp){
-      //   print("ForgotReceiveOtp: $receivedOtp");
-      //   CustomSnackBar("OTP Verified Successfully", "S");
-      //   Get.toNamed(AppRoutes.newPasswordScreen);
-      // } else {
-      //   CustomSnackBar("Invalid OTP. Please try again.", "E");
-      // }
+      if(enteredOtp == receivedOtp){
+        if (kDebugMode) {
+          print("ForgotReceiveOtp: $receivedOtp");
+        }
+
+        CustomSnackBar("OTP Verified Successfully", "S");
+        Get.toNamed(AppRoutes.newPasswordScreen);
+      } else {
+        CustomSnackBar("Invalid OTP. Please try again.", "E");
+      }
     } catch (e) {
       CustomSnackBar("Error: ${e.toString()}", "E");
     } finally {
@@ -74,45 +76,41 @@ class VerifyOtpController extends GetxController {
     try {
 
       isLoading.value = true;
-      //
-      // final Map<String, String>? initialRequest =
-      // storage.read(Constants.forgotInitialRequest);
-      //
-      // if (initialRequest == null) {
-      //   CustomSnackBar("No data found in storage. Please try again.", "E");
-      //   return;
-      // }
-      //
-      // String? emailOrNumber = initialRequest[Constants.credentialKey];
-      //
-      // if (emailOrNumber == null || emailOrNumber.isEmpty) {
-      //   CustomSnackBar("Data is missing. Please provide a valid data.", "E");
-      //   return;
-      // }
-      //
-      // print("Credential key: $emailOrNumber");
-      // Map<String, String> request = {
-      //   Constants.credentialKey: emailOrNumber,
-      // };
-      //
-      // var response = await apiService.registerOtp(request);
-      //
-      // if (response.status == true) {
-      //   storage.write(Constants.forgotPasswordReceivedOtp, response.otp);
-      //   print("New OTP received and saved: ${response.otp}");
-      //   timeCounter.value = 60;
-      //   if (_timer.isActive) {
-      //     _timer.cancel();
-      //   }
-      //   startTimer();
-      //
-      //   CustomSnackBar("OTP sent successfully!", "S");
-      // } else {
-      //   CustomSnackBar(response.message ?? "Failed to send an OTP.", "E");
-      // }
+
+      final Map<String, String>? initialRequest =
+      storage.read(Constants.forgotInitialRequest);
+
+      if (initialRequest == null) {
+        CustomSnackBar("No data found in storage. Please try again.", "E");
+        return;
+      }
+
+      String? email = initialRequest[Constants.email];
+
+      if (email == null || email.isEmpty) {
+        CustomSnackBar("Data is missing. Please provide a valid data.", "E");
+        return;
+      }
+
+      Map<String, String> request = {
+        Constants.email : email
+      };
+
+      var response = await apiService.forgotPassword(request);
+      print("Resend:$request");
+      if (response.success == true) {
+        storage.write(Constants.forgotPasswordReceivedOtp, response.otp);
+        timeCounter.value = 60;
+        if (_timer.isActive) {
+          _timer.cancel();
+        }
+        startTimer();
+        CustomSnackBar("OTP sent successfully!", "S");
+      } else {
+        CustomSnackBar(response.message ?? "Failed to send an OTP.", "E");
+      }
     } catch (e) {
-      print("Error in resendOtp: $e");
-      CustomSnackBar("An error occurred while resending an OTP.", "E");
+      CustomSnackBar(e.toString(), "E");
     } finally {
       isLoading.value = false;
     }

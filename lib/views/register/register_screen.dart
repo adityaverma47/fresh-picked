@@ -50,7 +50,7 @@ class RegisterScreen extends GetView<RegisterController> {
                         const Text(
                           "Create your Account",
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20, fontWeight: FontWeight.bold,color: ColorConstants.primaryColor),
                         ),
                         SizedBox(height: 20.h),
                         CustomTextFormField(

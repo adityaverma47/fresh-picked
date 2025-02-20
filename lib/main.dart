@@ -1,8 +1,4 @@
 import 'package:fresh_picked/core/app_export.dart';
-import 'package:fresh_picked/router/app_routes.dart';
-import 'package:fresh_picked/widgets/dismiss_keyboard.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 void main() async {
   await GetStorage.init();
