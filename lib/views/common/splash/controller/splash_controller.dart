@@ -1,16 +1,30 @@
-import 'package:get/get.dart';
-import '../../../../router/app_routes.dart';
+import '../../../../core/app_export.dart';
 
 class SplashController extends GetxController {
-  // Reactive variable
-  var isSplashDone = false.obs;
+
+  final storage = GetStorage();
+  static const secureStorage = FlutterSecureStorage();
 
   @override
   void onInit() {
     super.onInit();
-    // Simulate splash screen time using a delayed method
     Future.delayed(const Duration(seconds: 3), () {
-      isSplashDone.value = true; // Set to true after 3 seconds to trigger navigation
+      _navigateAfterSplash();
     });
+  }
+
+  void _navigateAfterSplash() async {
+    print("Splash");
+    final status = storage.read(Constants.status) ?? false;
+    final accessToken = await secureStorage.read(key: Constants.accessToken);
+    if (accessToken == null || accessToken.isEmpty) {
+      Get.offAllNamed(AppRoutes.loginScreen);
+    } else {
+      if (status == true) {
+        Get.offAllNamed(AppRoutes.bottomBar);
+      } else {
+        Get.offAllNamed(AppRoutes.loginScreen);
+      }
+    }
   }
 }

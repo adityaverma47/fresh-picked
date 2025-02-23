@@ -1,11 +1,4 @@
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import '../../../core/app_export.dart';
-import '../../../core/services/api_services.dart';
-import '../../../core/services/dio_client.dart';
-import '../../../core/utils/flutter_toast.dart';
-import '../../../router/app_routes.dart';
-import '../../../widgets/custom_snack_bar.dart';
 
 class RegisterController extends GetxController {
   RxBool isLoading = false.obs;

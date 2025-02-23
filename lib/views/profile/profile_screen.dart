@@ -6,13 +6,15 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstants.homeBackGroundColor,
       appBar: CustomAppBar(
         height: 55,
-        title: const Text("Personal Details", style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+        title:  Text("Personal Details", style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w500),),
         isBackBtnVisible: true,
         onTap: () {
           Get.back();
         },
+        centerTitle: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
