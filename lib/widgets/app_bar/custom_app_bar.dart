@@ -69,7 +69,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     CustomImageView(
                       height: 10.h,
                       width: 18.w,
-                      imagePath: ImageConstants.logoFreshPicked,
+                      imagePath: ImageConstants.backArrow,
                     ),
               ),
             ),

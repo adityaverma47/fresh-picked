@@ -6,99 +6,75 @@ import '../core/utils/color_constants.dart';
 
 // ignore: must_be_immutable
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField(
-      {this.maxLength,
-      this.onChanged,
-      this.shape,
-      this.padding,
-      this.variant,
-      this.alignment,
-      this.width,
-      this.margin,
-      this.controller,
-      this.focusNode,
-      this.isObscureText = false,
-      this.textInputAction = TextInputAction.next,
-      this.textInputType = TextInputType.text,
-      this.maxLines,
-      this.hintText,
-      this.prefix,
-      this.prefixConstraints,
-      this.suffix,
-      this.suffixConstraints,
-      this.validator,
-      this.labelText,
-      this.readOnly,
-      this.onTap,
-      this.capital,
-      this.floatingLabelBehavior,
-      this.autofocus,
-      this.minLines,
-      this.inputFormatters});
+  CustomTextFormField({
+    this.maxLength,
+    this.onChanged,
+    this.shape,
+    this.padding,
+    this.variant,
+    this.alignment,
+    this.width,
+    this.margin,
+    this.controller,
+    this.focusNode,
+    this.isObscureText = false,
+    this.textInputAction = TextInputAction.next,
+    this.textInputType = TextInputType.text,
+    this.maxLines,
+    this.hintText,
+    this.prefix,
+    this.prefixConstraints,
+    this.suffix,
+    this.suffixConstraints,
+    this.validator,
+    this.labelText,
+    this.readOnly,
+    this.onTap,
+    this.capital,
+    this.floatingLabelBehavior,
+    this.autofocus,
+    this.minLines,
+    this.labelAlign = TextAlign.start,
+    this.inputFormatters,
+  });
 
   bool? autofocus;
-
   FloatingLabelBehavior? floatingLabelBehavior;
-
   TextCapitalization? capital;
-
   Function(String)? onChanged;
-
   VoidCallback? onTap;
-
   TextFormFieldShape? shape;
-
   TextFormFieldPadding? padding;
-
   TextFormFieldVariant? variant;
-
   Alignment? alignment;
-
   double? width;
-
   EdgeInsetsGeometry? margin;
-
   TextEditingController? controller;
-
   FocusNode? focusNode;
-
   bool? isObscureText;
-
   TextInputAction? textInputAction;
-
   TextInputType? textInputType;
-
   int? maxLength;
-
   int? maxLines;
-
   int? minLines;
-
   String? hintText;
-
   bool? readOnly;
-
   Widget? prefix;
-
   BoxConstraints? prefixConstraints;
-
   Widget? suffix;
-
   BoxConstraints? suffixConstraints;
-
   FormFieldValidator<String>? validator;
-
   String? labelText;
-
+  final TextAlign labelAlign;
   List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
     return alignment != null
         ? Align(
-            alignment: alignment ?? Alignment.center,
-            child: _buildTextFormFieldWidget(),
-          )
+      alignment: alignment ?? Alignment.center,
+      child: _buildTextFormFieldWidget(),
+    )
         : _buildTextFormFieldWidget();
   }
 
@@ -106,23 +82,41 @@ class CustomTextFormField extends StatelessWidget {
     return Container(
       width: width ?? double.maxFinite,
       margin: margin,
-      child: TextFormField(
-        onTap: onTap,
-        onChanged: onChanged,
-        controller: controller,
-        focusNode: focusNode,
-        autofocus: autofocus ?? false,
-        obscureText: isObscureText!,
-        readOnly: readOnly ?? false,
-        maxLength: maxLength,
-        minLines: minLines ?? 1,
-        textInputAction: textInputAction ?? TextInputAction.next,
-        keyboardType: textInputType,
-        maxLines: maxLines ?? 1,
-        decoration: _buildDecoration(),
-        validator: validator,
-        inputFormatters: inputFormatters,
-        textCapitalization: capital ?? TextCapitalization.sentences,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (labelText != null)
+            Container(
+              alignment: labelAlign == TextAlign.start ? Alignment.centerLeft : Alignment.center,
+              padding: EdgeInsets.only(left: 4.w, bottom: 8.h),
+              child: Text(
+                labelText!,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          TextFormField(
+            onTap: onTap,
+            onChanged: onChanged,
+            controller: controller,
+            focusNode: focusNode,
+            autofocus: autofocus ?? false,
+            obscureText: isObscureText!,
+            readOnly: readOnly ?? false,
+            maxLength: maxLength,
+            minLines: minLines ?? 1,
+            textInputAction: textInputAction ?? TextInputAction.next,
+            keyboardType: textInputType,
+            maxLines: maxLines ?? 1,
+            decoration: _buildDecoration(),
+            validator: validator,
+            inputFormatters: inputFormatters,
+            textAlign: TextAlign.start, // Aligns the input text to start
+            textCapitalization: capital ?? TextCapitalization.sentences,
+          ),
+        ],
       ),
     );
   }
@@ -131,10 +125,8 @@ class CustomTextFormField extends StatelessWidget {
     return InputDecoration(
       counterText: "",
       hintText: hintText ?? "",
-      labelText: labelText ?? "",
       floatingLabelBehavior:
-          floatingLabelBehavior ?? FloatingLabelBehavior.auto,
-
+      floatingLabelBehavior ?? FloatingLabelBehavior.auto,
       border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
@@ -157,93 +149,15 @@ class CustomTextFormField extends StatelessWidget {
             width: 2,
             color: ColorConstants.primaryColor,
           )),
-      // border: _setBorderStyle(),
-      // enabledBorder: _setBorderStyle(),
-      // focusedBorder: _setBorderStyle(),
-      // disabledBorder: _setBorderStyle(),
       prefixIcon: prefix,
       prefixIconConstraints: prefixConstraints,
       suffixIcon: suffix,
-      // suffixIconConstraints: BoxConstraints(
-      //     //suffixIconConstraints
-      //     maxHeight: 12.h),
       fillColor: _setFillColor(),
       filled: _setFilled(),
       isDense: true,
       contentPadding: _setPadding(),
     );
   }
-
-  _setOutlineBorderRadius() {
-    switch (shape) {
-      default:
-        return BorderRadius.circular(
-          10.00.w,
-        );
-    }
-  }
-
-  // _setBorderStyle() {
-  //   switch (variant) {
-  //     case TextFormFieldVariant.White:
-  //       return const OutlineInputBorder(
-  //         borderSide: BorderSide(
-  //           color: ColorConstants.grey,
-  //           width: 1,
-  //         ),
-  //       );
-  //     case TextFormFieldVariant.FillWhiteA700:
-  //       return OutlineInputBorder(
-  //         borderRadius: _setOutlineBorderRadius(),
-  //         borderSide: BorderSide.none,
-  //       );
-  //     case TextFormFieldVariant.OutlineGray30004_1:
-  //       return OutlineInputBorder(
-  //         borderRadius: _setOutlineBorderRadius(),
-  //         borderSide: BorderSide(
-  //           color: ColorConstants.outlineStroke,
-  //           width: 1,
-  //         ),
-  //       );
-  //     case TextFormFieldVariant.FillDeeporange5001:
-  //       return OutlineInputBorder(
-  //         borderRadius: _setOutlineBorderRadius(),
-  //         borderSide: BorderSide.none,
-  //       );
-  //     case TextFormFieldVariant.FillGray10001:
-  //       return OutlineInputBorder(
-  //         borderRadius: _setOutlineBorderRadius(),
-  //         borderSide: BorderSide.none,
-  //       );
-  //     case TextFormFieldVariant.OutlineGray30004_2:
-  //       return OutlineInputBorder(
-  //         borderRadius: _setOutlineBorderRadius(),
-  //         borderSide: const BorderSide(
-  //           color: ColorConstants.outlineStroke,
-  //           width: 1,
-  //         ),
-  //       );
-  //     case TextFormFieldVariant.OutlineScecondaryColor:
-  //       return OutlineInputBorder(
-  //         borderRadius: _setOutlineBorderRadius(),
-  //         borderSide: BorderSide(
-  //           color: ColorConstants.secondaryColor,
-  //           width: 1,
-  //         ),
-  //       );
-  //
-  //     case TextFormFieldVariant.None:
-  //       return InputBorder.none;
-  //     default:
-  //       return OutlineInputBorder(
-  //         borderRadius: _setOutlineBorderRadius(),
-  //         borderSide: const BorderSide(
-  //           color: ColorConstants.outlineStroke,
-  //           width: 1,
-  //         ),
-  //       );
-  //   }
-  // }
 
   _setFillColor() {
     switch (variant) {
@@ -274,7 +188,6 @@ class CustomTextFormField extends StatelessWidget {
         return true;
       case TextFormFieldVariant.OutlineScecondaryColor:
         return true;
-
       case TextFormFieldVariant.None:
         return false;
       default:

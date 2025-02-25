@@ -1,5 +1,8 @@
-import 'package:fresh_picked/bottom_bar/binding/bottom_binding.dart';
-import 'package:fresh_picked/bottom_bar/bottom_screen.dart';
+import 'package:fresh_picked/chat/binding/chat_binding.dart';
+import 'package:fresh_picked/chat/chat_screen.dart';
+import 'package:fresh_picked/favourites/binding/favourites_binding.dart';
+import 'package:fresh_picked/favourites/favourites_screen.dart';
+import 'package:fresh_picked/views/AddProduct/add_product_screen.dart';
 import 'package:fresh_picked/views/common/welcome/binding/welcome_binding.dart';
 import 'package:fresh_picked/views/common/welcome/welcome_screen.dart';
 import 'package:fresh_picked/views/dashboard/binding/dashboard_binding.dart';
@@ -7,6 +10,9 @@ import 'package:fresh_picked/views/dashboard/dashboard_screen.dart';
 import 'package:fresh_picked/views/profile/binding/profile_binding.dart';
 import 'package:fresh_picked/views/profile/profile_screen.dart';
 import 'package:get/get.dart';
+import '../views/addProduct/binding/add_product_binding.dart';
+import '../views/bottom_bar/binding/bottom_binding.dart';
+import '../views/bottom_bar/bottom_screen.dart';
 import '../views/common/splash/binding/splash_binding.dart';
 import '../views/common/splash/splash_screen.dart';
 import '../views/forgotPassword/emailPage/binding/forgot_email_binding.dart';
@@ -30,6 +36,9 @@ class AppRoutes {
   static const String newPasswordScreen = '/new_password_screen';
   static const String dashBoardScreen = '/dashboard_screen';
   static const String bottomBar = '/bottom_navigation_bar_screen';
+  static const String favouritesScreen = '/favourites_screen';
+  static const String addProductScreen = '/add_product_screen';
+  static const String chatScreen = '/chat_screen';
   static const String profileScreen = '/profile_screen';
 
 
@@ -64,15 +73,27 @@ class AppRoutes {
         bindings: [RegisterBinding()]),
     GetPage(
         name: dashBoardScreen,
-        page: () => const DashboardScreen(), // Registration Screen
+        page: () => const DashboardScreen(), // Dashboard Screen
         bindings: [DashboardBinding()]),
     GetPage(
         name: bottomBar,
-        page: () => const BottomScreen(), // Registration Screen
+        page: () => const BottomScreen(), // Bottom Navigation Bar Screen
         bindings: [BottomBinding()]),
     GetPage(
+        name: favouritesScreen,
+        page: () => const FavouritesScreen(), // Favourites Screen
+        bindings: [FavouritesBinding()]),
+    GetPage(
+        name: addProductScreen,
+        page: () => const AddProductScreen(), // Add Product Screen
+        bindings: [AddProductBinding()]),
+    GetPage(
+        name: chatScreen,
+        page: () => const ChatScreen(), // Chat Screen
+        bindings: [ChatBinding()]),
+    GetPage(
         name: profileScreen,
-        page: () => const ProfileScreen(), // Registration Screen
+        page: () => const ProfileScreen(), // Profile Screen
         bindings: [ProfileBinding()]),
 
   ];

@@ -1,7 +1,12 @@
 import 'dart:io';
-import 'package:fresh_picked/bottom_bar/controller/bottom_controller.dart';
-import '../core/app_export.dart';
-import '../views/dashboard/dashboard_screen.dart';
+import 'package:fresh_picked/chat/chat_screen.dart';
+import 'package:fresh_picked/favourites/favourites_screen.dart';
+import 'package:fresh_picked/views/AddProduct/add_product_screen.dart';
+import 'package:fresh_picked/views/profile/profile_screen.dart';
+
+import '../../core/app_export.dart';
+import '../dashboard/dashboard_screen.dart';
+import 'controller/bottom_controller.dart';
 
 class BottomScreen extends GetView<BottomController> {
   const BottomScreen({super.key});
@@ -38,9 +43,10 @@ class BottomScreen extends GetView<BottomController> {
             index: controller.tabIndex.value,
             children:   const [
               DashboardScreen(),
-              // CartScreen(),
-              // WishlistScreen(),
-              // MoreScreen()
+              FavouritesScreen(),
+              AddProductScreen(),
+              ChatScreen(),
+              ProfileScreen()
             ],
           ),
         );
@@ -66,22 +72,29 @@ class BottomScreen extends GetView<BottomController> {
                   : const Icon(Icons.home_outlined),
               label: 'Home',
             ),
+
             BottomNavigationBarItem(
               icon: (controller.tabIndex.value == 1)
-                  ? const Icon(Icons.shopping_cart)
-                  : const Icon(Icons.shopping_cart_outlined),
-              label: 'Cart',
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_border),
+              label: 'Favourites',
             ),
             BottomNavigationBarItem(
               icon: (controller.tabIndex.value == 2)
-                  ? const Icon(Icons.favorite)
-                  : const Icon(Icons.favorite_border),
-              label: 'Wishlist',
+                  ? const Icon(Icons.add_box)
+                  : const Icon(Icons.add),
+              label: 'Add Product',
             ),
             BottomNavigationBarItem(
               icon: (controller.tabIndex.value == 3)
+                  ? const Icon(Icons.chat_bubble)
+                  : const Icon(Icons.chat_bubble_outline),
+              label: 'Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: (controller.tabIndex.value == 4)
                   ? const Icon(Icons.person)
-                  : const Icon(Icons.person_outline),
+                  : const Icon(Icons.perm_identity),
               label: 'Profile',
             ),
           ],

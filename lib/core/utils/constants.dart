@@ -3,6 +3,7 @@ class Constants{
   static const splashShowTime = 2000; //in millisecond
   static const authToken = 'auth_token';
   static const status = 'success';
+  // static const registerStatus = 'success';
   static const id = 'id';
   static const userId = 'userId';
   static const code = 'code';
