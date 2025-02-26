@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:fresh_picked/chat/chat_screen.dart';
-import 'package:fresh_picked/favourites/favourites_screen.dart';
 import 'package:fresh_picked/views/AddProduct/add_product_screen.dart';
 import 'package:fresh_picked/views/profile/profile_screen.dart';
 
 import '../../core/app_export.dart';
 import '../dashboard/dashboard_screen.dart';
+import '../favourites/favourites_screen.dart';
 import 'controller/bottom_controller.dart';
 
 class BottomScreen extends GetView<BottomController> {

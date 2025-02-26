@@ -15,4 +15,5 @@ class ColorConstants{
   static Color errorBorder = const Color(0xFF990000);
   static const outlineStroke = Color(0xFFE2E2E2);
   static const homeBackGroundColor = Color(0xFFFAFAFA);
+  static const lightTextColor = Color(0xFFC5BFBF);
 }

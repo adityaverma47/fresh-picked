@@ -1,7 +1,5 @@
 import 'package:fresh_picked/chat/binding/chat_binding.dart';
 import 'package:fresh_picked/chat/chat_screen.dart';
-import 'package:fresh_picked/favourites/binding/favourites_binding.dart';
-import 'package:fresh_picked/favourites/favourites_screen.dart';
 import 'package:fresh_picked/views/AddProduct/add_product_screen.dart';
 import 'package:fresh_picked/views/common/welcome/binding/welcome_binding.dart';
 import 'package:fresh_picked/views/common/welcome/welcome_screen.dart';
@@ -15,6 +13,8 @@ import '../views/bottom_bar/binding/bottom_binding.dart';
 import '../views/bottom_bar/bottom_screen.dart';
 import '../views/common/splash/binding/splash_binding.dart';
 import '../views/common/splash/splash_screen.dart';
+import '../views/favourites/binding/favourites_binding.dart';
+import '../views/favourites/favourites_screen.dart';
 import '../views/forgotPassword/emailPage/binding/forgot_email_binding.dart';
 import '../views/forgotPassword/emailPage/forgot_email_screen.dart';
 import '../views/forgotPassword/newPassword/binding/new_password_binding.dart';
