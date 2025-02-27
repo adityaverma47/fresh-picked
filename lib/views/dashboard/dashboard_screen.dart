@@ -1,31 +1,13 @@
-import 'package:fresh_picked/core/utils/app_fonts.dart';
+import 'package:fresh_picked/views/dashboard/controller/dashboard_controller.dart';
 
 import '../../core/app_export.dart';
 
-// class DashboardScreen extends StatelessWidget {
-//   const DashboardScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return  Scaffold(
-//       backgroundColor: ColorConstants.homeBackGroundColor,
-//       body: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           Center(child: Text(" Welcome Home Screen",style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,fontFamily: AppFonts.abhayaLibre),))
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends GetView<DashboardController> {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DashboardController());
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
@@ -50,11 +32,11 @@ class DashboardScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Image.asset(ImageConstants.location,width: 15.w,),
+                  Image.asset(ImageConstants.location,width: 15.w,color: Colors.red,),
                   SizedBox(width: 8.w,),
                   Text(
-                    "California",
-                    style: TextStyle(color: ColorConstants.white,fontSize: 22.sp),
+                    controller.storage.read('address'),
+                    style: TextStyle(color: ColorConstants.white,fontSize: 16.sp),
                   )
                 ],
               ),
@@ -113,7 +95,9 @@ class DashboardScreen extends StatelessWidget {
             style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600,fontFamily: AppFonts.inter),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(AppRoutes.allProductScreen);
+            },
             child: const Text(
               "See All",
               style: TextStyle(color: Colors.green, fontSize: 16),
@@ -179,76 +163,81 @@ class DashboardScreen extends StatelessWidget {
 
 
   Widget _buildProductCard(Map<String, dynamic> product) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
-                ),
-                child: Image.asset(
-                  product["image"],
-                  height: 100,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 8.h,
-                right: 8.w,
-                child: const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 16,
-                  child: Icon(Icons.favorite_border, color: Colors.red),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: (){
+        Get.toNamed(AppRoutes.productDetailScreen);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: const [
+            BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
-                Text(
-                  product["name"],
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                  child: Image.asset(
+                    product["image"],
+                    height: 100,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    // const Icon(Icons.star, color: Colors.green, size: 16),
-                    // const SizedBox(width: 5),
-                     Text("Distance",style: TextStyle(fontSize: 16.sp),),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.location_on,
-                        color: Colors.green, size: 16),
-                    const Text("190m"),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "\$ ${product["price"]}",
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green),
+                Positioned(
+                  top: 8.h,
+                  right: 8.w,
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 16,
+                    child: Icon(Icons.favorite_border, color: Colors.red),
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product["name"],
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      // const Icon(Icons.star, color: Colors.green, size: 16),
+                      // const SizedBox(width: 5),
+                       Text("Distance",style: TextStyle(fontSize: 16.sp),),
+                      const SizedBox(width: 10),
+                      const Icon(Icons.location_on,
+                          color: Colors.green, size: 16),
+                      const Text("190m"),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "\$ ${product["price"]}",
+                    style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
