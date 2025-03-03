@@ -43,7 +43,7 @@ class RegisterController extends GetxController {
       var response = await apiService.register(request);
       if (response.success == true) {
         storage.write(Constants.status, response.success);
-        Get.toNamed(AppRoutes.dashBoardScreen);
+        Get.toNamed(AppRoutes.bottomBar);
         CustomSnackBar(response.message.toString(), "S");
       } else {
         CustomSnackBar(response.message ?? "Registration failed", "E");

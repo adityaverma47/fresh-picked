@@ -18,3 +18,4 @@ export '../../../widgets/custom_button_bottom.dart';
 export 'package:flutter_secure_storage/flutter_secure_storage.dart';
 export 'package:fresh_picked/widgets/dismiss_keyboard.dart';
 export '../../widgets/app_bar/custom_app_bar.dart';
+export 'package:fresh_picked/core/utils/app_fonts.dart';

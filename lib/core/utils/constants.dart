@@ -17,5 +17,6 @@ class Constants{
   static const String forgotInitialRequest = "forgot_initial_request";
   static const String forgotPasswordReceivedOtp = 'otp';
   static const forgotPasswordEmail = "forgot_password_email";
-
+  static const latitude = 'latitude';
+  static const longitude = 'longitude';
 }

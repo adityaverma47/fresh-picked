@@ -1,4 +1,3 @@
-import 'package:fresh_picked/core/utils/app_fonts.dart';
 import 'package:fresh_picked/views/profile/controller/profile_controller.dart';
 import '../../core/app_export.dart';
 
@@ -8,6 +7,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProfileController controller = Get.put(ProfileController());
+    var secureStorage = const FlutterSecureStorage();
+    var storage = GetStorage();
     return Scaffold(
       backgroundColor: ColorConstants.homeBackGroundColor,
       appBar: CustomAppBar(
@@ -18,6 +19,18 @@ class ProfileScreen extends StatelessWidget {
           Get.back();
         },
         centerTitle: true,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 30.w),
+            child: GestureDetector(
+                onTap: () async {
+                  await storage.erase();
+                 await secureStorage.deleteAll();
+                 Get.offAllNamed(AppRoutes.loginScreen);
+                },
+                child: const Icon(Icons.logout,size: 30,)),
+          )
+        ],
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 15.w),

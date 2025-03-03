@@ -1,8 +1,10 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:dio/dio.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../core/app_export.dart';
+import '../../../data/models/HomeProductModel/home_product_model.dart';
 
 class DashboardController extends GetxController {
 
@@ -10,11 +12,31 @@ class DashboardController extends GetxController {
   RxBool allPermissionGranted = false.obs;
   Rx<Position?> currentPosition = Rx<Position?>(null);
   final storage = GetStorage();
-
+  final secureStorage = const FlutterSecureStorage();
+  RxBool isLoading = false.obs;
+  final ApiService apiService = ApiService(dio: DioClient().getDio());
+  var myLatitude = 0.0.obs;
+  var myLongitude = 0.0.obs;
+  
   @override
   void onInit() {
     super.onInit();
     permissionChecker();
+    _loadFromLocalStorage();
+  }
+
+  void _loadFromLocalStorage() {
+    double? storedLatitude = storage.read(Constants.latitude);
+    double? storedLongitude = storage.read(Constants.longitude);
+
+    if (storedLatitude != null && storedLongitude != null) {
+      myLatitude.value = storedLatitude;
+      myLongitude.value = storedLongitude;
+    } else {
+      if (kDebugMode) {
+        print("Found no location");
+      }
+    }
   }
 
   Future<void> permissionChecker() async {
@@ -87,8 +109,8 @@ class DashboardController extends GetxController {
 
       currentPosition.value = position;
       if(currentPosition.value != null) {
-        storage.write('latitude', position.latitude);
-        storage.write('longitude', position.longitude);
+        storage.write(Constants.latitude, position.latitude);
+        storage.write(Constants.longitude, position.longitude);
         print("User Location: ${position.latitude}, ${position.longitude}");
         await _convertLatLngToAddress(position.latitude, position.longitude);
 
@@ -136,4 +158,38 @@ class DashboardController extends GetxController {
       ),
     );
   }
+
+  Future<void> fetchAllHomeData() async {
+
+    isLoading.value = true;
+    try {
+      String? token = await secureStorage.read(key: Constants.accessToken);
+
+      if (token == null || token.isEmpty) {
+        if (kDebugMode) {
+          print("Token is missing. Cannot fetch wishlist.");
+        }
+        Message_Utils.displayToast("Token is missing. Please log in.");
+        return;
+      }
+
+      HomeProductModel response = await apiService.getHomeProducts(myLatitude.value.toString(), myLongitude.value.toString());
+
+      if (response.success == true) {
+       
+      } else {
+        CustomSnackBar(response.message.toString(), "E");
+      }
+    } on DioException catch (e) {
+      if (kDebugMode) {
+        print("${e.response?.data["message"] ?? "Unknown error"}");
+      }
+
+    } catch (e) {
+      Message_Utils.displayToast(e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 }

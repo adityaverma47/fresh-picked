@@ -1,10 +1,14 @@
 import 'package:fresh_picked/chat/binding/chat_binding.dart';
 import 'package:fresh_picked/chat/chat_screen.dart';
 import 'package:fresh_picked/views/AddProduct/add_product_screen.dart';
+import 'package:fresh_picked/views/allProduct/all_product_screen.dart';
+import 'package:fresh_picked/views/allProduct/binding/all_product_binding.dart';
 import 'package:fresh_picked/views/common/welcome/binding/welcome_binding.dart';
 import 'package:fresh_picked/views/common/welcome/welcome_screen.dart';
 import 'package:fresh_picked/views/dashboard/binding/dashboard_binding.dart';
 import 'package:fresh_picked/views/dashboard/dashboard_screen.dart';
+import 'package:fresh_picked/views/productDetail/binding/product_detail_binding.dart';
+import 'package:fresh_picked/views/productDetail/product_detail_screen.dart';
 import 'package:fresh_picked/views/profile/binding/profile_binding.dart';
 import 'package:fresh_picked/views/profile/profile_screen.dart';
 import 'package:get/get.dart';
@@ -40,6 +44,8 @@ class AppRoutes {
   static const String addProductScreen = '/add_product_screen';
   static const String chatScreen = '/chat_screen';
   static const String profileScreen = '/profile_screen';
+  static const String allProductScreen = '/all_product_screen';
+  static const String productDetailScreen = '/product_detail_screen';
 
 
   static List<GetPage> pages = [
@@ -95,6 +101,15 @@ class AppRoutes {
         name: profileScreen,
         page: () => const ProfileScreen(), // Profile Screen
         bindings: [ProfileBinding()]),
+    GetPage(
+        name: allProductScreen,
+        page: () => const AllProductScreen(), // Profile Screen
+        bindings: [AllProductBinding()]),
+    GetPage(
+        name: productDetailScreen,
+        page: () => const ProductDetailScreen(), // Profile Screen
+        bindings: [ProductDetailBinding()]),
+
 
   ];
 }

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fresh_picked/core/utils/app_fonts.dart';
 import '../../core/app_export.dart';
 
 class FavouritesScreen extends StatelessWidget {
@@ -45,9 +46,9 @@ class FavouritesScreen extends StatelessWidget {
       backgroundColor: ColorConstants.homeBackGroundColor,
       appBar: CustomAppBar(
         height: 55,
-        title: const Text(
-          "Wishlist",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        title:  const Text(
+          "Likes Vegetables",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,fontFamily: AppFonts.abhayaLibre),
         ),
         centerTitle: true,
         isBackBtnVisible: true,
@@ -86,12 +87,13 @@ class FavouritesScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 4.h),
-              const Text(
+               Text(
                 "You don’t have any saved items.\nGo to home and add some.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
                   color: ColorConstants.lightTextColor,
+                  fontFamily: AppFonts.inter
                 ),
               ),
             ],

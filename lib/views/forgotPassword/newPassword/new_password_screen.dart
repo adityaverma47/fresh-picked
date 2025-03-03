@@ -132,7 +132,7 @@ class NewPasswordScreen extends GetView<NewPasswordController> {
                             children: [
                               GestureDetector(
                                 onTap: (){
-                                  Get.toNamed(AppRoutes.dashBoardScreen);
+                                  Get.toNamed(AppRoutes.bottomBar);
                                   // controller.confirmChangePassword();
                                 },
                                 child: CustomButtonBottom(
