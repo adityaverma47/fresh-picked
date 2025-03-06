@@ -17,12 +17,14 @@ class DashboardController extends GetxController {
   final ApiService apiService = ApiService(dio: DioClient().getDio());
   var myLatitude = 0.0.obs;
   var myLongitude = 0.0.obs;
+  RxList<FivekMRangeProducts> productsList = <FivekMRangeProducts>[].obs;
   
   @override
   void onInit() {
     super.onInit();
     permissionChecker();
     _loadFromLocalStorage();
+    fetchAllHomeData();
   }
 
   void _loadFromLocalStorage() {
@@ -176,7 +178,7 @@ class DashboardController extends GetxController {
       HomeProductModel response = await apiService.getHomeProducts(myLatitude.value.toString(), myLongitude.value.toString());
 
       if (response.success == true) {
-       
+        productsList.value = response.data?.fivekMRangeProducts ?? [];
       } else {
         CustomSnackBar(response.message.toString(), "E");
       }

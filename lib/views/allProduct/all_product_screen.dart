@@ -1,113 +1,50 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fresh_picked/core/utils/app_fonts.dart';
-
+import 'package:shimmer/shimmer.dart';
 import '../../core/app_export.dart';
+import 'controller/all_product_controller.dart';
 
-
-class AllProductScreen extends StatelessWidget {
+class AllProductScreen extends GetView<AllProductController> {
   const AllProductScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Placeholder for wishlist data
-    final List<Map<String, dynamic>> wishlist = [
-      {
-        "title": "Product 1",
-        "price": "100",
-        "images": [ImageConstants.greenCauliflower],
-      },
-      {
-        "title": "Product 2",
-        "price": "200",
-        "images": ["https://example.com/image2.jpg"],
-      },
-      {
-        "title": "Product 1",
-        "price": "100",
-        "images": [ImageConstants.greenCauliflower],
-      },
-      {
-        "title": "Product 2",
-        "price": "200",
-        "images": ["https://example.com/image2.jpg"],
-      },
-      {
-        "title": "Product 1",
-        "price": "100",
-        "images": [ImageConstants.greenCauliflower],
-      },
-      {
-        "title": "Product 2",
-        "price": "200",
-        "images": ["https://example.com/image2.jpg"],
-      },
-      // Add more products as needed
-    ];
-
     return Scaffold(
       backgroundColor: ColorConstants.homeBackGroundColor,
       appBar: CustomAppBar(
         height: 55,
-        title:  const Text(
+        title: const Text(
           "Vegetables",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,fontFamily: AppFonts.abhayaLibre),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            fontFamily: AppFonts.abhayaLibre,
+          ),
         ),
         centerTitle: true,
         isBackBtnVisible: true,
         onTap: () => Get.offAllNamed(AppRoutes.bottomBar),
         actions: [
           Container(
-              margin: const EdgeInsets.only(right: 25),
-              child: const Icon(Icons.search,size: 35,))
+            margin: const EdgeInsets.only(right: 25),
+            child: const Icon(Icons.search, size: 35),
+          )
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: ColorConstants.homeBackGroundColor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: const Offset(0, 3), // Shadow position
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return buildShimmerGrid(); // Show shimmer effect while loading
+        }
+
+        if (controller.vegetableList.isEmpty) {
+          return const Center(
+            child: Text(
+              "No Vegetables Found!",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-          ],
-        ),
-        child: wishlist.isEmpty
-            ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.favorite_border,
-                size: 70,
-                color: ColorConstants.lightTextColor,
-              ),
-              SizedBox(height: 8.h),
-               const Text(
-                "No Saved Items!",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: ColorConstants.lightTextColor,
-                    fontFamily: AppFonts.abhayaLibre
-                ),
-              ),
-              SizedBox(height: 4.h),
-              const Text(
-                "You don’t have any saved items.\nGo to home and add some.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: ColorConstants.lightTextColor,
-                    fontFamily: AppFonts.abhayaLibre
-                ),
-              ),
-            ],
-          ),
-        )
-            : Padding(
+          );
+        }
+
+        return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -116,11 +53,12 @@ class AllProductScreen extends StatelessWidget {
               crossAxisSpacing: 10,
               childAspectRatio: 0.7,
             ),
-            itemCount: wishlist.length,
+            itemCount: controller.vegetableList.length,
             itemBuilder: (context, index) {
-              final product = wishlist[index];
+              final product = controller.vegetableList[index];
+
               return GestureDetector(
-                onTap: (){
+                onTap: () {
                   Get.toNamed(AppRoutes.productDetailScreen);
                 },
                 child: Card(
@@ -135,52 +73,38 @@ class AllProductScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: product["images"] != null &&
-                                product["images"]!.isNotEmpty
-                                ? CachedNetworkImage(
-                              imageUrl: product["images"]!.first,
+                            child: CachedNetworkImage(
+                              imageUrl: product.vegitableImage ?? '',
                               fit: BoxFit.cover,
-                              placeholder: (context, url) =>
-                              const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  Center(
-                                    child: Image.asset(
-                                      ImageConstants.tomato,
-                                    ),
-                                  ),
-                            )
-                                : Center(
-                              child: Image.asset(
-                                ImageConstants.greenCauliflower,
+                              placeholder: (context, url) => buildShimmerEffect(),
+                              errorWidget: (context, url, error) => Center(
+                                child: Image.asset(ImageConstants.tomato),
                               ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              product["title"] ?? 'No Title',
+                              product.name ?? 'No Name',
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                  fontFamily: AppFonts.inter
+                                fontFamily: AppFonts.inter,
                               ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              "\$${product["price"] ?? 'N/A'}", // Updated to use dollar sign
+                              "\$${product.cost ?? 'N/A'}",
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.green,
                                 fontWeight: FontWeight.w600,
-                                  fontFamily: AppFonts.inter
+                                fontFamily: AppFonts.inter,
                               ),
                             ),
                           ),
@@ -192,7 +116,7 @@ class AllProductScreen extends StatelessWidget {
                         right: 8,
                         child: GestureDetector(
                           onTap: () {
-                            // Handle removal from wishlist
+                            // Handle favorite toggle
                           },
                           child: const Icon(
                             Icons.favorite,
@@ -206,6 +130,39 @@ class AllProductScreen extends StatelessWidget {
               );
             },
           ),
+        );
+      }),
+    );
+  }
+
+  /// **Function to Build a Grid of Shimmer Effect**
+  Widget buildShimmerGrid() {
+    return GridView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        childAspectRatio: 0.7,
+      ),
+      itemCount: 6, // Show shimmer for 6 items
+      itemBuilder: (context, index) {
+        return buildShimmerEffect();
+      },
+    );
+  }
+
+  /// **Function to Build a Single Shimmer Effect**
+  Widget buildShimmerEffect() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: double.infinity,
+        height: 180,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
     );

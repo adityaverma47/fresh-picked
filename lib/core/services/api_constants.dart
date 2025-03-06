@@ -7,6 +7,12 @@ class ApiConstants {
   static const forgotPasswordMethod = "user/forgot-password";
   static const verifyOtpMethod = "user/verification";
   static const resetPasswordMethod = "user/add-new-password";
+  static const getHomeData = '/vegitable/getHomeProducts';
+  static const getAllVegetables = '/vegitable/getAllVegitables';
+  static const addProduct = 'vegitable/createVegitable';
+  static const getAllFav = 'favouriteVegitable/getAllFavouriteVegetables';
+  static const addToFav = 'favouriteVegitable/addToFavourite';
+  static const removeFromFav = 'favouriteVegitable/removeFavouriteVegetable';
   static const logout = "user/logout";
 
 }

@@ -30,10 +30,17 @@ class LoginScreen extends GetView<LoginController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("FreshPicked", style: TextStyle(fontSize: 38,fontWeight: FontWeight.w600,color: ColorConstants.primaryColor),),
+                                Text(
+                                  "FreshPicked",
+                                  style: TextStyle(
+                                      fontSize: 48.sp,
+                                      fontWeight: FontWeight.w800,
+                                      color: ColorConstants.primaryColor,
+                                      fontFamily: AppFonts.abhayaLibre),
+                                ),
                               ],
                             ),
                             const Align(
@@ -90,9 +97,9 @@ class LoginScreen extends GetView<LoginController> {
                               },
                               textInputAction: TextInputAction.next,
                               textInputType: TextInputType.emailAddress,
-                              labelText: "Email",
                               hintText: "Enter your email",
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
                             ),
                             SizedBox(height: 18.h),
                             Text(
@@ -130,8 +137,8 @@ class LoginScreen extends GetView<LoginController> {
                               isObscureText: !controller.isVisibility.value,
                               hintText: "Enter your password",
                               textInputType: TextInputType.text,
-                              labelText: "Password",
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
                             ),
                             SizedBox(height: 10.h),
                             InkWell(
@@ -156,7 +163,7 @@ class LoginScreen extends GetView<LoginController> {
                               children: [
                                 CustomButtonBottom(
                                   onTap: () {
-                                 controller.login();
+                                    controller.login();
                                   },
                                   width: 140.w,
                                   height: 45.h,

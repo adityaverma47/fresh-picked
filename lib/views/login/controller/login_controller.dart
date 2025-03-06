@@ -42,7 +42,7 @@ class LoginController extends GetxController {
         storage.write(Constants.email, email);
         storage.write(Constants.password, password);
         await saveUserSession(response);
-        Get.offAllNamed(AppRoutes.dashBoardScreen);
+        Get.offAllNamed(AppRoutes.bottomBar);
         CustomSnackBar(response.message.toString(), "S");
       } else {
         CustomSnackBar(response.message ?? "Login failed", "E");
