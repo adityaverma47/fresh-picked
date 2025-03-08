@@ -174,9 +174,12 @@ class DashboardController extends GetxController {
         Message_Utils.displayToast("Token is missing. Please log in.");
         return;
       }
+      if (myLatitude.value == 0.0 && myLongitude.value == 0.0) {
+        await _getUserLocation();
+      }
 
       HomeProductModel response = await apiService.getHomeProducts(myLatitude.value.toString(), myLongitude.value.toString());
-
+      print("Response:${response.data}");
       if (response.success == true) {
         productsList.value = response.data?.fivekMRangeProducts ?? [];
       } else {
@@ -188,10 +191,23 @@ class DashboardController extends GetxController {
       }
 
     } catch (e) {
+      print("Response:${e.toString()}");
       Message_Utils.displayToast(e.toString());
     } finally {
       isLoading.value = false;
     }
   }
 
+  void navigateToVegetableDetail(FivekMRangeProducts product) {
+    Get.toNamed(AppRoutes.productDetailScreen,
+        arguments: {
+          'title': product.name,
+          'id': product.sId,
+          'image': product.vegitableImage.toString(),
+          'price': product.cost.toString(),
+          'description': product.description,
+          'sellerId': product.seller,
+          'distance':product.distance!.toDouble()
+        });
+  }
 }

@@ -1,7 +1,9 @@
 import 'package:shimmer/shimmer.dart';
 import 'package:fresh_picked/views/dashboard/controller/dashboard_controller.dart';
 import '../../core/app_export.dart';
+import '../../data/models/AllFavodel/all_fav_model.dart';
 import '../../data/models/HomeProductModel/home_product_model.dart';
+import '../favourites/controller/favourites_controller.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
   const DashboardScreen({super.key});
@@ -18,40 +20,53 @@ class DashboardScreen extends GetView<DashboardController> {
         isBackBtnVisible: false,
         title: Container(
           margin: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              // Left side: Location info
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "Your Location",
-                    style:
-                        TextStyle(color: ColorConstants.white, fontSize: 15.sp),
+                  Row(
+                    children: [
+                      Text(
+                        "Your Location",
+                        style: TextStyle(
+                            color: ColorConstants.white, fontSize: 15.sp),
+                      ),
+                      Image.asset(
+                        ImageConstants.keywordArrowDown,
+                        width: 30.w,
+                      )
+                    ],
                   ),
-                  Image.asset(
-                    ImageConstants.keywordArrowDown,
-                    width: 30.w,
-                  )
+                  Row(
+                    children: [
+                      Image.asset(
+                        ImageConstants.location,
+                        width: 15.w,
+                        color: Colors.red,
+                      ),
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      Text(
+                        controller.storage.read('address') ?? 'Unknown Location',
+                        style: TextStyle(
+                            color: ColorConstants.white, fontSize: 16.sp),
+                      )
+                    ],
+                  ),
                 ],
               ),
-              Row(
-                children: [
-                  Image.asset(
-                    ImageConstants.location,
-                    width: 15.w,
-                    color: Colors.red,
-                  ),
-                  SizedBox(
-                    width: 8.w,
-                  ),
-                  Text(
-                    controller.storage.read('address') ?? 'Unknown Location',
-                    style:
-                        TextStyle(color: ColorConstants.white, fontSize: 16.sp),
-                  )
-                ],
-              ),
+              // Right side: Favourites Icon
+              IconButton(
+                icon: const Icon(Icons.favorite_border, color: Colors.red),
+                onPressed: () {
+                  // TODO: Add your favourites functionality here
+                },
+              )
             ],
           ),
         ),
@@ -64,22 +79,19 @@ class DashboardScreen extends GetView<DashboardController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Obx(() => controller.isLoading.value
-                ? _buildShimmerHeader()
-                : _buildHeader()),
+            Obx(() =>
+            controller.isLoading.value ? _buildShimmerHeader() : _buildHeader()),
             SizedBox(
               height: 5.h,
             ),
-            Obx(() => controller.isLoading.value
-                ? _buildShimmerTitle()
-                : _buildTitleSection()),
+            Obx(() =>
+            controller.isLoading.value ? _buildShimmerTitle() : _buildTitleSection()),
             SizedBox(
               height: 5.h,
             ),
             Expanded(
-                child: Obx(() => controller.isLoading.value
-                    ? _buildShimmerGrid()
-                    : _buildGridView())),
+                child: Obx(() =>
+                controller.isLoading.value ? _buildShimmerGrid() : _buildGridView())),
           ],
         ),
       ),
@@ -186,7 +198,9 @@ class DashboardScreen extends GetView<DashboardController> {
 
   Widget _buildProductCard(FivekMRangeProducts product) {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.productDetailScreen),
+      onTap: (){
+        controller.navigateToVegetableDetail(product);
+      },
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -198,30 +212,62 @@ class DashboardScreen extends GetView<DashboardController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12), topRight: Radius.circular(12)),
-              child: Image.network(product.vegitableImage ?? '',
-                  height: 100, width: double.infinity, fit: BoxFit.cover),
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+                  child: Image.network(product.vegitableImage ?? '',
+                      height: 100, width: double.infinity, fit: BoxFit.cover),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Obx(() {
+                    final favController = Get.find<FavouritesController>();
+                    final bool isFav = favController.wishlist.any((item) => item.sId == product.sId);
+                    return GestureDetector(
+                      onTap: () {
+                        favController.toggleWishlist(
+                          FavouriteVegitables(sId: product.sId ?? ""),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          isFav ? Icons.favorite : Icons.favorite_border,
+                          color: Colors.red,
+                          size: 25,
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+
+
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(product.name.toString() ?? '',
+                  Text(product.name.toString(),
                       style: TextStyle(
                           fontSize: 16.sp, fontWeight: FontWeight.bold)),
                   SizedBox(height: 4.h),
                   Row(
                     children: [
-                      const Icon(Icons.location_on,
-                          color: Colors.green, size: 16),
+                      const Icon(Icons.location_on, color: Colors.red, size: 16),
                       Text("${product.distance?.toStringAsFixed(1) ?? ''} km"),
                     ],
                   ),
                   SizedBox(height: 4.h),
-                  Text(product.cost.toString() ?? '',
+                  Text(product.cost.toString(),
                       style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
