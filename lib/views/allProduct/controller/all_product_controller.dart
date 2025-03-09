@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fresh_picked/core/app_export.dart';
+import 'package:fresh_picked/views/dashboard/controller/dashboard_controller.dart';
 
 import '../../../data/models/AllVegetablesModel/all_vegetables_model.dart';
 
@@ -8,6 +9,12 @@ class AllProductController extends GetxController {
   final ApiService apiService = ApiService(dio: DioClient().getDio());
   final secureStorage = const FlutterSecureStorage();
   RxList<Vegitables> vegetableList = <Vegitables>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+   fetchAllVegetables();
+  }
 
   Future<void> fetchAllVegetables() async{
     isLoading.value = true;
@@ -37,5 +44,20 @@ class AllProductController extends GetxController {
     } catch (e){
       Message_Utils.displayToast(e.toString());
     }
+    finally {
+      isLoading.value = false;
+    }
+  }
+
+  void navigateToDetailScreen(Vegitables product){
+   Get.toNamed(AppRoutes.productDetailScreen, arguments: {
+     'title': product.name,
+     'id': product.sId,
+     'image': product.vegitableImage.toString(),
+     'price': product.cost.toString(),
+     'description': product.description,
+     'sellerId': product.seller,
+     // 'distance':product.distance!.toDouble()
+   });
   }
 }

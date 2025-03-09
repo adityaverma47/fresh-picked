@@ -32,51 +32,55 @@ class FavouritesController extends GetxController {
       var response = await apiService.getAllFavourites(request);
       if (response.success == true && response.data?.user?.favouriteVegitables != null) {
         wishlist.assignAll(response.data!.user!.favouriteVegitables!);
-        storage.write("wishlist", wishlist.map((e) => e.sId).toList());
+        _updateLocalStorage(); // Ensure local storage syncs properly
       } else {
         wishlist.clear();
-        storage.remove("wishlist");
+        _updateLocalStorage();
       }
     } on DioException catch (e) {
       Message_Utils.displayToast("Error fetching wishlist: ${e.toString()}");
       wishlist.clear();
+      _updateLocalStorage();
     } catch (e) {
       wishlist.clear();
+      _updateLocalStorage();
     }
   }
 
   /// Adds an item to the wishlist (locally first, then API)
-  Future<void> addToFav(String vegitableId) async {
-    wishlist.add(FavouriteVegitables(sId: vegitableId));
-    _updateLocalStorage();
+  Future<void> addToFav(FavouriteVegitables vegitable) async {
+    wishlist.add(vegitable);
+    _updateLocalStorage(); // Update storage immediately
 
     try {
       String? token = await secureStorage.read(key: Constants.accessToken);
       if (token == null || token.isEmpty) {
         Message_Utils.displayToast("Authentication error. Please log in.");
+        wishlist.remove(vegitable); // Rollback UI
+        _updateLocalStorage();
         return;
       }
 
       Map<String, String> request = {
-        'vegitableId': vegitableId,
+        'vegitableId': vegitable.sId!,
         Constants.userId: storage.read(Constants.id),
       };
       var response = await apiService.addToFavourites(request);
 
       if (response.success == true) {
         fetchAllWishlist(); // Refresh from backend
-        CustomSnackBar(response.message.toString(), "S");
+        // CustomSnackBar(response.message.toString(), "S");
       } else {
-        wishlist.removeWhere((item) => item.sId == vegitableId); // Rollback UI
+        // wishlist.remove(vegitable); // Rollback UI
         _updateLocalStorage();
         CustomSnackBar(response.message.toString(), "E");
       }
     } on DioException catch (e) {
-      wishlist.removeWhere((item) => item.sId == vegitableId); // Rollback UI
+      wishlist.remove(vegitable); // Rollback UI
       _updateLocalStorage();
       Message_Utils.displayToast(e.toString());
     } catch (e) {
-      wishlist.removeWhere((item) => item.sId == vegitableId);
+      wishlist.remove(vegitable);
       _updateLocalStorage();
       Message_Utils.displayToast(e.toString());
     }
@@ -84,13 +88,22 @@ class FavouritesController extends GetxController {
 
   /// Removes an item from the wishlist (locally first, then API)
   Future<void> removeFromFav(String itemId) async {
-    wishlist.removeWhere((item) => item.sId == itemId);
+    FavouriteVegitables? removedItem;
+    try {
+      removedItem = wishlist.firstWhere((item) => item.sId == itemId);
+    } catch (e) {
+      return;
+    }
+
+    wishlist.remove(removedItem);
     _updateLocalStorage();
 
     try {
       String? token = await secureStorage.read(key: Constants.accessToken);
       if (token == null || token.isEmpty) {
         Message_Utils.displayToast("Authentication error. Please log in.");
+        wishlist.add(removedItem);
+        _updateLocalStorage();
         return;
       }
 
@@ -100,35 +113,37 @@ class FavouritesController extends GetxController {
       };
       var response = await apiService.removeFromFav(request);
 
-      if (response.status == true) {
-        CustomSnackBar(response.message.toString(), "S");
+      if (response.success == true) {
       } else {
-        wishlist.add(FavouriteVegitables(sId: itemId)); // Rollback UI
-        _updateLocalStorage();
-        CustomSnackBar(response.message.toString(), "E");
       }
     } on DioException catch (e) {
-      wishlist.add(FavouriteVegitables(sId: itemId)); // Rollback UI
+      wishlist.add(removedItem); // Rollback UI
       _updateLocalStorage();
       Message_Utils.displayToast(e.toString());
     } catch (e) {
-      wishlist.add(FavouriteVegitables(sId: itemId));
+      wishlist.add(removedItem);
       _updateLocalStorage();
       Message_Utils.displayToast(e.toString());
     }
   }
 
   /// Toggles wishlist status of an item
-  void toggleWishlist(FavouriteVegitables item) async {
+  Future<void> toggleWishlist(FavouriteVegitables item) async {
+    if (item.sId == null || item.sId!.isEmpty) return;
     if (wishlist.any((fav) => fav.sId == item.sId)) {
-      await removeFromFav(item.sId ?? "");
+      await removeFromFav(item.sId!);
     } else {
-      await addToFav(item.sId ?? "");
+      await addToFav(item);
     }
   }
 
   /// Updates local storage with the current wishlist
   void _updateLocalStorage() {
-    storage.write("wishlist", wishlist.map((e) => e.sId).toList());
+    List<Map<String, dynamic>> wishlistData = wishlist.map((e) => e.toJson()).toList();
+    storage.write("wishlist", wishlistData);
+  }
+
+  bool isFavourite(String id) {
+    return wishlist.any((item) => item.sId == id);
   }
 }

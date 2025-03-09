@@ -58,7 +58,7 @@ class FivekMRangeProducts {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  int? distance;
+  double? distance; // Changed from int? to double?
 
   FivekMRangeProducts(
       {this.rating,
@@ -76,7 +76,8 @@ class FivekMRangeProducts {
 
   FivekMRangeProducts.fromJson(Map<String, dynamic> json) {
     rating = json['rating'] != null ? Rating.fromJson(json['rating']) : null;
-    location = json['location'] != null ? Location.fromJson(json['location']) : null;
+    location =
+    json['location'] != null ? Location.fromJson(json['location']) : null;
     sId = json['_id'];
     name = json['name'];
     vegitableImage = json['vegitableImage'];
@@ -86,7 +87,8 @@ class FivekMRangeProducts {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    distance = json['distance'];
+    // Convert the distance value (whether int or double) to double
+    distance = (json['distance'] as num?)?.toDouble();
   }
 
   Map<String, dynamic> toJson() {
@@ -159,10 +161,12 @@ class Seller {
   String? avatar;
   String? address;
 
-  Seller({this.location, this.sId, this.email, this.phone, this.avatar, this.address});
+  Seller(
+      {this.location, this.sId, this.email, this.phone, this.avatar, this.address});
 
   Seller.fromJson(Map<String, dynamic> json) {
-    location = json['location'] != null ? Location.fromJson(json['location']) : null;
+    location =
+    json['location'] != null ? Location.fromJson(json['location']) : null;
     sId = json['_id'];
     email = json['email'];
     phone = json['phone'];

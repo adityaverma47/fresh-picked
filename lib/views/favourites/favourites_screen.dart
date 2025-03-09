@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fresh_picked/core/utils/app_fonts.dart';
 import 'package:fresh_picked/views/favourites/controller/favourites_controller.dart';
 import '../../core/app_export.dart';
 
@@ -19,7 +18,7 @@ class FavouritesScreen extends GetView<FavouritesController> {
               fontWeight: FontWeight.bold,
               fontFamily: AppFonts.abhayaLibre),
         ),
-        centerTitle: true,
+        centerTitle: false,
         isBackBtnVisible: true,
         onTap: () => Get.offAllNamed(AppRoutes.bottomBar),
       ),
@@ -108,7 +107,7 @@ class FavouritesScreen extends GetView<FavouritesController> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(
-                            "\$${product.cost.toString() ?? 'N/A'}",
+                            product.cost.toString() ?? 'N/A',
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.green,
