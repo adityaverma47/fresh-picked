@@ -29,12 +29,18 @@ dependencies:
   app_settings: ^5.2.0
   geolocator: ^13.0.2
   geocoding: ^3.0.0
+  shimmer: ^3.0.0
+  google_maps_flutter: ^2.10.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^4.0.0
+
+dependency_overrides:
+  dio: ^5.8.0+1  # Ensure the same version as specified above to avoid conflict
+  get: ^4.7.2
 
 flutter:
 

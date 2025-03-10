@@ -90,16 +90,16 @@ class CustomVegetableCard extends StatelessWidget {
             ),
             Row(
               children: [
-                const Icon(Icons.location_on, size: 20, color: Colors.red),
-                SizedBox(width: 4.w),
+                 const Icon(Icons.location_on_outlined, size: 18, color: ColorConstants.redColor),
+                SizedBox(width: 8.w),
                 Text(
-                  "${product.distance?.toStringAsFixed(1) ?? '0'} km",
+                  _formatDistance(product.distance),
                   style: TextStyle(fontSize: 13.sp, fontFamily: AppFonts.inter),
                 ),
               ],
             ),
             Text(
-              "₹${product.cost.toString()}",
+              product.cost.toString(),
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.green,
@@ -163,5 +163,31 @@ class CustomVegetableCard extends StatelessWidget {
     }
   }
 
+  String _formatDistance(String? distance) {
+    if (distance == null || distance.isEmpty) return "0 m"; // Default to 0m
+
+    // Extract numeric value and unit (e.g., "500 m" or "2.3 km")
+    final regex = RegExp(r'([\d.]+)\s*(m|km)?', caseSensitive: false);
+    final match = regex.firstMatch(distance);
+
+    if (match != null) {
+      double value = double.tryParse(match.group(1) ?? "0") ?? 0;
+      String? unit = match.group(2)?.toLowerCase();
+
+      if (unit == "m") {
+        if (value < 1000) {
+          return "${value.toInt()} m"; // Show meters if <1000m
+        }
+        value = value / 1000; // Convert meters to km
+        return "${value.toStringAsFixed(1)} km";
+      }
+
+      if (unit == "km") {
+        return "${value.toStringAsFixed(1)} km"; // Show km directly
+      }
+    }
+
+    return "0 m"; // Fallback
+  }
 
 }

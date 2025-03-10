@@ -12,7 +12,7 @@ class HomeProductModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
@@ -37,7 +37,7 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     if (fivekMRangeProducts != null) {
       data['FivekMRangeProducts'] =
           fivekMRangeProducts!.map((v) => v.toJson()).toList();
@@ -58,26 +58,28 @@ class FivekMRangeProducts {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  double? distance; // Changed from int? to double?
+  double? distanceInKm;
+  String? distance;
 
-  FivekMRangeProducts(
-      {this.rating,
-        this.location,
-        this.sId,
-        this.name,
-        this.vegitableImage,
-        this.cost,
-        this.description,
-        this.seller,
-        this.createdAt,
-        this.updatedAt,
-        this.iV,
-        this.distance});
+  FivekMRangeProducts({
+    this.rating,
+    this.location,
+    this.sId,
+    this.name,
+    this.vegitableImage,
+    this.cost,
+    this.description,
+    this.seller,
+    this.createdAt,
+    this.updatedAt,
+    this.iV,
+    this.distanceInKm,
+    this.distance,
+  });
 
   FivekMRangeProducts.fromJson(Map<String, dynamic> json) {
     rating = json['rating'] != null ? Rating.fromJson(json['rating']) : null;
-    location =
-    json['location'] != null ? Location.fromJson(json['location']) : null;
+    location = json['location'] != null ? Location.fromJson(json['location']) : null;
     sId = json['_id'];
     name = json['name'];
     vegitableImage = json['vegitableImage'];
@@ -87,12 +89,12 @@ class FivekMRangeProducts {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    // Convert the distance value (whether int or double) to double
-    distance = (json['distance'] as num?)?.toDouble();
+    distanceInKm = json['distanceInKm']?.toDouble();
+    distance = json['distance'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     if (rating != null) {
       data['rating'] = rating!.toJson();
     }
@@ -110,6 +112,7 @@ class FivekMRangeProducts {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
+    data['distanceInKm'] = distanceInKm;
     data['distance'] = distance;
     return data;
   }
@@ -127,7 +130,7 @@ class Rating {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     data['average'] = average;
     data['count'] = count;
     return data;
@@ -142,13 +145,17 @@ class Location {
 
   Location.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    coordinates = json['coordinates']?.cast<double>();
+    coordinates = (json['coordinates'] as List?)
+        ?.map((e) => (e as num).toDouble()) // Ensuring conversion to double
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     data['type'] = type;
-    data['coordinates'] = coordinates;
+    if (coordinates != null) {
+      data['coordinates'] = coordinates;
+    }
     return data;
   }
 }
@@ -161,12 +168,10 @@ class Seller {
   String? avatar;
   String? address;
 
-  Seller(
-      {this.location, this.sId, this.email, this.phone, this.avatar, this.address});
+  Seller({this.location, this.sId, this.email, this.phone, this.avatar, this.address});
 
   Seller.fromJson(Map<String, dynamic> json) {
-    location =
-    json['location'] != null ? Location.fromJson(json['location']) : null;
+    location = json['location'] != null ? Location.fromJson(json['location']) : null;
     sId = json['_id'];
     email = json['email'];
     phone = json['phone'];
@@ -175,7 +180,7 @@ class Seller {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     if (location != null) {
       data['location'] = location!.toJson();
     }

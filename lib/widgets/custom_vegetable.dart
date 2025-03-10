@@ -84,13 +84,12 @@ class CustomVegetable extends StatelessWidget {
           ),
           Row(
             children: [
-              const Icon(Icons.location_on, size: 25),
+              const Icon(Icons.location_on_outlined, size: 18, color: ColorConstants.redColor),
               SizedBox(width: 8.w),
-              // Uncomment if you want to display distance
-              // Text(
-              //   product.dist.toString(),
-              //   style: TextStyle(fontSize: 13.sp, fontFamily: AppFonts.inter),
-              // ),
+              Text(
+                _formatDistance(product.distance),
+                style: TextStyle(fontSize: 13.sp, fontFamily: AppFonts.inter),
+              ),
             ],
           ),
           Text(
@@ -106,6 +105,33 @@ class CustomVegetable extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatDistance(String? distance) {
+    if (distance == null || distance.isEmpty) return "0 m"; // Default to 0m
+
+    // Extract numeric value and unit (e.g., "500 m" or "2.3 km")
+    final regex = RegExp(r'([\d.]+)\s*(m|km)?', caseSensitive: false);
+    final match = regex.firstMatch(distance);
+
+    if (match != null) {
+      double value = double.tryParse(match.group(1) ?? "0") ?? 0;
+      String? unit = match.group(2)?.toLowerCase();
+
+      if (unit == "m") {
+        if (value < 1000) {
+          return "${value.toInt()} m"; // Show meters if <1000m
+        }
+        value = value / 1000; // Convert meters to km
+        return "${value.toStringAsFixed(1)} km";
+      }
+
+      if (unit == "km") {
+        return "${value.toStringAsFixed(1)} km"; // Show km directly
+      }
+    }
+
+    return "0 m"; // Fallback
   }
 
   Widget buildProductImage(String? imagePath) {

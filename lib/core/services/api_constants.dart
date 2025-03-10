@@ -14,5 +14,6 @@ class ApiConstants {
   static const addToFav = 'favouriteVegitable/addToFavourite';
   static const removeFromFav = 'favouriteVegitable/removeFavouriteVegetable';
   static const logout = "user/logout";
+  static const updateProfile = 'user/updateUserProfile';
 
 }

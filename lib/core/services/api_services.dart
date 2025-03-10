@@ -198,7 +198,7 @@ class ApiService implements ApiRepository {
   }
 
   @override
-  Future<AllVegetablesModel> getAllVegetables() async {
+  Future<AllVegetablesModel> getAllVegetables(String latitude,String longitude) async {
     try {
       String? token = await secureStorage.read(key: Constants.accessToken);
       if (token == null || token.isEmpty) {
@@ -207,6 +207,10 @@ class ApiService implements ApiRepository {
 
       Response response = await dio.get(
         ApiConstants.getAllVegetables,
+        queryParameters: {
+          Constants.latitude: latitude,
+          Constants.longitude: longitude,
+        },
       );
       if (response.statusCode == 200) {
         return AllVegetablesModel.fromJson(response.data);
@@ -286,6 +290,26 @@ class ApiService implements ApiRepository {
       Message_Utils.displayToast(e.toString());
     }
     return RemoveFromFavModel(success: false, message: "server error");
+  }
+
+  @override
+  Future<CommonModel> updateProfile(FormData request) async {
+    try {
+      Response response = await dio.patch(ApiConstants.updateProfile, data: request);
+      if (response.statusCode == 200) {
+        return CommonModel.fromJson(response.data);
+      } else {
+        return CommonModel(success: false, message: response.data["message"]);
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        return CommonModel(
+            success: false, message: e.response?.data["message"]);
+      }
+    } catch (e) {
+      Message_Utils.displayToast(e.toString());
+    }
+    return CommonModel(success: false, message: "server error");
   }
 
 

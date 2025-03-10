@@ -8,6 +8,8 @@ import 'package:fresh_picked/views/common/welcome/welcome_screen.dart';
 import 'package:fresh_picked/views/dashboard/binding/dashboard_binding.dart';
 import 'package:fresh_picked/views/dashboard/dashboard_screen.dart';
 import 'package:fresh_picked/views/productDetail/binding/product_detail_binding.dart';
+import 'package:fresh_picked/views/productDetail/googleMap/binding/vegetable_map_binding.dart';
+import 'package:fresh_picked/views/productDetail/googleMap/vegetable_map_screen.dart';
 import 'package:fresh_picked/views/productDetail/product_detail_screen.dart';
 import 'package:fresh_picked/views/profile/binding/profile_binding.dart';
 import 'package:fresh_picked/views/profile/profile_screen.dart';
@@ -46,6 +48,7 @@ class AppRoutes {
   static const String profileScreen = '/profile_screen';
   static const String allProductScreen = '/all_product_screen';
   static const String productDetailScreen = '/product_detail_screen';
+  static const String vegetableMapScreen = '/vegetable_map_screen';
 
 
   static List<GetPage> pages = [
@@ -109,6 +112,10 @@ class AppRoutes {
         name: productDetailScreen,
         page: () => const ProductDetailScreen(), // Profile Screen
         bindings: [ProductDetailBinding()]),
+    GetPage(
+        name: vegetableMapScreen,
+        page: () => const VegetableMapScreen(), // Profile Screen
+        bindings: [VegetableMapBinding()]),
 
 
   ];

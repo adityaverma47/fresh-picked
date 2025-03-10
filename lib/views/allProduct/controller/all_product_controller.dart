@@ -9,11 +9,29 @@ class AllProductController extends GetxController {
   final ApiService apiService = ApiService(dio: DioClient().getDio());
   final secureStorage = const FlutterSecureStorage();
   RxList<Vegitables> vegetableList = <Vegitables>[].obs;
+  final storage = GetStorage();
+  var myLatitude = 0.0.obs;
+  var myLongitude = 0.0.obs;
 
   @override
   void onInit() {
     super.onInit();
+    _loadFromLocalStorage();
    fetchAllVegetables();
+  }
+
+  void _loadFromLocalStorage() {
+    double? storedLatitude = storage.read(Constants.latitude);
+    double? storedLongitude = storage.read(Constants.longitude);
+
+    if (storedLatitude != null && storedLongitude != null) {
+      myLatitude.value = storedLatitude;
+      myLongitude.value = storedLongitude;
+    } else {
+      if (kDebugMode) {
+        print("Found no location");
+      }
+    }
   }
 
   Future<void> fetchAllVegetables() async{
@@ -30,7 +48,7 @@ class AllProductController extends GetxController {
         return;
       }
 
-      var response = await apiService.getAllVegetables();
+      var response = await apiService.getAllVegetables(myLatitude.value.toString(), myLongitude.value.toString());
 
       if(response.success == true) {
         vegetableList.value = response.data!.vegitables!;

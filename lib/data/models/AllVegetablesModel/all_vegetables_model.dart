@@ -29,10 +29,9 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['vegitables'] != null) {
-      vegitables = [];
-      json['vegitables'].forEach((v) {
-        vegitables!.add(Vegitables.fromJson(v));
-      });
+      vegitables = (json['vegitables'] as List)
+          .map((v) => Vegitables.fromJson(v))
+          .toList();
     }
   }
 
@@ -54,10 +53,10 @@ class Vegitables {
   String? cost;
   String? description;
   String? seller;
-  bool? favourite;
   String? createdAt;
   String? updatedAt;
   int? iV;
+  String? distance;
 
   Vegitables({
     this.rating,
@@ -68,10 +67,10 @@ class Vegitables {
     this.cost,
     this.description,
     this.seller,
-    this.favourite,
     this.createdAt,
     this.updatedAt,
     this.iV,
+    this.distance,
   });
 
   Vegitables.fromJson(Map<String, dynamic> json) {
@@ -83,10 +82,10 @@ class Vegitables {
     cost = json['cost'];
     description = json['description'];
     seller = json['seller'];
-    favourite = json['favourite'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    distance = json['distance'];
   }
 
   Map<String, dynamic> toJson() {
@@ -103,10 +102,10 @@ class Vegitables {
     data['cost'] = cost;
     data['description'] = description;
     data['seller'] = seller;
-    data['favourite'] = favourite;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
+    data['distance'] = distance;
     return data;
   }
 }
@@ -138,13 +137,16 @@ class Location {
 
   Location.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    coordinates = json['coordinates']?.cast<double>();
+    coordinates = json['coordinates'] != null
+        ? (json['coordinates'] as List).map((e) => (e as num).toDouble()).toList()
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['type'] = type;
-    data['coordinates'] = coordinates;
-    return data;
+    return {
+      'type': type,
+      'coordinates': coordinates,
+    };
   }
 }
+

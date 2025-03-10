@@ -207,7 +207,7 @@ class DashboardController extends GetxController {
           'price': product.cost.toString(),
           'description': product.description,
           'sellerId': product.seller,
-          'distance':product.distance!.toDouble()
+          'distance':product.distance!.length
         });
   }
 }
