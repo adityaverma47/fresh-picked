@@ -19,4 +19,7 @@ class Constants{
   static const forgotPasswordEmail = "forgot_password_email";
   static const latitude = 'latitude';
   static const longitude = 'longitude';
+  static const dob = 'dob';
+  static const gender = 'gender';
+  static const avatar = 'avatar';
 }

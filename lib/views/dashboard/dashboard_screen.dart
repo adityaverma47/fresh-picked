@@ -86,6 +86,14 @@ class DashboardScreen extends GetView<DashboardController> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed(AppRoutes.vegetableMapScreen);
+        },
+        backgroundColor: ColorConstants.primaryColor,
+        elevation: 5,
+        child: const Icon(Icons.navigation, color: Colors.white, size: 30),
+      ),
     );
   }
 
