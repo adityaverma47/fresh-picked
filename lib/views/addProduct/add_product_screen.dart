@@ -23,7 +23,7 @@ class AddProductScreen extends GetView<AddProductController> {
         centerTitle: false,
         isBackBtnVisible: true,
         onTap: () {
-          Get.back();
+          Get.offAllNamed(AppRoutes.bottomBar);
         },
       ),
       body: SingleChildScrollView(

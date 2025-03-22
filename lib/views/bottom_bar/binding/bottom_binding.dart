@@ -12,7 +12,7 @@ class BottomBinding extends Bindings {
    Get.lazyPut(() => BottomController());
    Get.lazyPut<FavouritesController>(() => FavouritesController());
    Get.lazyPut<AddProductController>(() => AddProductController());
-   Get.lazyPut<ChatController>(() => ChatController());
+   // Get.lazyPut<ChatController>(() => ChatController());
    Get.lazyPut<ProfileController>(() => ProfileController());
   }
 

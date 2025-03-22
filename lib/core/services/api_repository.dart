@@ -7,6 +7,7 @@ import '../../data/models/AddToFavModel/add_fav_model.dart';
 import '../../data/models/AllFavodel/all_fav_model.dart';
 import '../../data/models/CommonModel/common_model.dart';
 import '../../data/models/LoginModel/login_model.dart';
+import '../../data/models/ProfileModel/profile_model.dart';
 import '../../data/models/RemFromFavModel/remove_fav_model.dart';
 
 abstract class ApiRepository {
@@ -22,5 +23,5 @@ abstract class ApiRepository {
   Future<AddToFavModel> addToFavourites(Map<String,dynamic> request);
   Future<AllFavModel> getAllFavourites(Map<String,dynamic> request);
   Future<RemoveFromFavModel> removeFromFav(Map<String, dynamic> request);
-  Future<CommonModel> updateProfile(FormData request);
+  Future<ProfileModel> updateProfile(FormData request);
 }

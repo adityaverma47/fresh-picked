@@ -1,5 +1,3 @@
-import 'package:fresh_picked/chat/binding/chat_binding.dart';
-import 'package:fresh_picked/chat/chat_screen.dart';
 import 'package:fresh_picked/views/AddProduct/add_product_screen.dart';
 import 'package:fresh_picked/views/allProduct/all_product_screen.dart';
 import 'package:fresh_picked/views/allProduct/binding/all_product_binding.dart';
@@ -17,6 +15,8 @@ import 'package:get/get.dart';
 import '../views/addProduct/binding/add_product_binding.dart';
 import '../views/bottom_bar/binding/bottom_binding.dart';
 import '../views/bottom_bar/bottom_screen.dart';
+import '../views/chat/binding/chat_binding.dart';
+import '../views/chat/chat_screen.dart';
 import '../views/common/splash/binding/splash_binding.dart';
 import '../views/common/splash/splash_screen.dart';
 import '../views/favourites/binding/favourites_binding.dart';
@@ -96,10 +96,10 @@ class AppRoutes {
         name: addProductScreen,
         page: () => const AddProductScreen(), // Add Product Screen
         bindings: [AddProductBinding()]),
-    GetPage(
-        name: chatScreen,
-        page: () => const ChatScreen(), // Chat Screen
-        bindings: [ChatBinding()]),
+    // GetPage(
+    //     name: chatScreen,
+    //     page: () => const ChatScreen(), // Chat Screen
+    //     bindings: [ChatBinding()]),
     GetPage(
         name: profileScreen,
         page: () => const ProfileScreen(), // Profile Screen

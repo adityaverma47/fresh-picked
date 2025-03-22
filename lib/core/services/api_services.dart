@@ -8,6 +8,7 @@ import '../../data/models/AllFavodel/all_fav_model.dart';
 import '../../data/models/AllVegetablesModel/all_vegetables_model.dart';
 import '../../data/models/CommonModel/common_model.dart';
 import '../../data/models/LoginModel/login_model.dart';
+import '../../data/models/ProfileModel/profile_model.dart';
 import '../../data/models/RegisterModel/register_model.dart';
 import '../../data/models/RemFromFavModel/remove_fav_model.dart';
 import '../utils/constants.dart';
@@ -293,23 +294,23 @@ class ApiService implements ApiRepository {
   }
 
   @override
-  Future<CommonModel> updateProfile(FormData request) async {
+  Future<ProfileModel> updateProfile(FormData request) async {
     try {
       Response response = await dio.patch(ApiConstants.updateProfile, data: request);
       if (response.statusCode == 200) {
-        return CommonModel.fromJson(response.data);
+        return ProfileModel.fromJson(response.data);
       } else {
-        return CommonModel(success: false, message: response.data["message"]);
+        return ProfileModel(success: false, message: response.data["message"]);
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        return CommonModel(
+        return ProfileModel(
             success: false, message: e.response?.data["message"]);
       }
     } catch (e) {
       Message_Utils.displayToast(e.toString());
     }
-    return CommonModel(success: false, message: "server error");
+    return ProfileModel(success: false, message: "server error");
   }
 
 

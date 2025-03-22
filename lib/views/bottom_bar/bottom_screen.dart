@@ -45,7 +45,7 @@ class BottomScreen extends GetView<BottomController> {
               DashboardScreen(),
               FavouritesScreen(),
               AddProductScreen(),
-              ChatScreen(),
+              // ChatScreen(),
               ProfileScreen()
             ],
           ),
