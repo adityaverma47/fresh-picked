@@ -129,6 +129,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                       text: "Message Seller",
                       shape: ButtonShape.RoundedBorder6,
                       onTap: () {
+                        Get.toNamed(AppRoutes.chatScreen);
                         // Implement chat feature with sellerId
                         // print("Chat with seller: ${controller.sellerId.value}");
                       },

@@ -85,12 +85,12 @@ class BottomScreen extends GetView<BottomController> {
                   : const Icon(Icons.add),
               label: 'Add Product',
             ),
-            BottomNavigationBarItem(
-              icon: (controller.tabIndex.value == 3)
-                  ? const Icon(Icons.chat_bubble)
-                  : const Icon(Icons.chat_bubble_outline),
-              label: 'Chat',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: (controller.tabIndex.value == 3)
+            //       ? const Icon(Icons.chat_bubble)
+            //       : const Icon(Icons.chat_bubble_outline),
+            //   label: 'Chat',
+            // ),
             BottomNavigationBarItem(
               icon: (controller.tabIndex.value == 4)
                   ? const Icon(Icons.person)

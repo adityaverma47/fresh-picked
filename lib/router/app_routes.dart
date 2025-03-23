@@ -96,10 +96,10 @@ class AppRoutes {
         name: addProductScreen,
         page: () => const AddProductScreen(), // Add Product Screen
         bindings: [AddProductBinding()]),
-    // GetPage(
-    //     name: chatScreen,
-    //     page: () => const ChatScreen(), // Chat Screen
-    //     bindings: [ChatBinding()]),
+    GetPage(
+        name: chatScreen,
+        page: () =>  ChatScreen(), // Chat Screen
+        bindings: [ChatBinding()]),
     GetPage(
         name: profileScreen,
         page: () => const ProfileScreen(), // Profile Screen
