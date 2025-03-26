@@ -1,30 +1,40 @@
 import 'dart:convert';
+import 'package:fresh_picked/core/app_export.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SocketService {
   // Singleton instance
   static final SocketService _instance = SocketService._internal();
   factory SocketService() => _instance;
   SocketService._internal();
+  final secureStorage = const FlutterSecureStorage();
 
-  IO.Socket? socket; // Nullable socket
+  IO.Socket? socket;
 
   /// Initialize the socket connection.
   /// [token] is required for authentication.
-  void initialize({required String token}) {
+  Future<void> initialize({required String token}) async {
+    // Check if socket already exists
     if (socket != null) {
       print("Socket already initialized.");
       return;
     }
 
+    // Use the appropriate URL.
+    // For Android emulator, replace 'localhost' with '10.0.2.2'
+    const String serverUrl = 'https://lbhkfnz4-5000.inc1.devtunnels.ms/'; // Change if needed
+
     socket = IO.io(
-      'ws://localhost:5000', // Replace with your actual socket server URL
+      serverUrl,
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect() // We'll connect manually
           .setExtraHeaders({'Authorization': 'Bearer $token'})
           .build(),
     );
+
+    print("Token: $token");
 
     socket!.onConnect((_) {
       print('Socket connected');
@@ -44,9 +54,11 @@ class SocketService {
 
     // Connect after initialization
     socket!.connect();
+
+    // Wait briefly to allow connection attempt (optional)
+    await Future.delayed(Duration(seconds: 2));
   }
 
-  /// Connect to the socket server.
   void connect() {
     if (socket == null) {
       print("Error: Socket is not initialized.");
@@ -59,7 +71,6 @@ class SocketService {
     socket!.connect();
   }
 
-  /// Disconnect from the socket server.
   void disconnect() {
     if (socket == null) {
       print("Error: Socket is not initialized.");
@@ -69,20 +80,24 @@ class SocketService {
     print("Socket disconnected.");
   }
 
-  /// Emit a message event with acknowledgment.
-  /// Ensures socket is connected before emitting.
+  void emit(String event, Map<String, dynamic> data) {
+    if (socket == null || !(socket!.connected)) {
+      print("Error: Socket is not initialized or not connected.");
+      return;
+    }
+    socket!.emit(event, jsonEncode(data));
+  }
+
   void emitWithAck(String event, Map<String, dynamic> data, Function(dynamic) ackCallback) {
     if (socket == null || !(socket!.connected)) {
       print("Error: Socket is not initialized or not connected.");
       return;
     }
-
     socket!.emitWithAck(event, jsonEncode(data), ack: (response) {
-      ackCallback(response); // Call the provided callback with the response
+      ackCallback(response);
     });
   }
 
-  /// Listen for a specific event.
   void on(String event, Function(dynamic data) callback) {
     if (socket == null) {
       print("Error: Socket is not initialized.");
@@ -91,7 +106,6 @@ class SocketService {
     socket!.on(event, callback);
   }
 
-  /// Remove a specific event listener.
   void off(String event) {
     if (socket == null) {
       print("Error: Socket is not initialized.");
@@ -100,6 +114,5 @@ class SocketService {
     socket!.off(event);
   }
 
-  /// Check if the socket is connected
   bool get isConnected => socket?.connected ?? false;
 }
